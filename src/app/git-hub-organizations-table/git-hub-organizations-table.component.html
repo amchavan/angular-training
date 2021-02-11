@@ -1,3 +1,20 @@
-hi! the following comes from the parent: 
+<b>HI!</b> The following data comes from the parent via the 'organizations' variable here in the child component: 
 <br><br>
-{{organizations}}
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th> <th>Login</th> <th>URL</th> <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let organization of organizations">
+                <td> {{ organization.id }} </td>
+                <td> {{ organization.login }} </td>
+                <td> {{ organization.url }} </td>
+                <td> {{ organization.description }} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
