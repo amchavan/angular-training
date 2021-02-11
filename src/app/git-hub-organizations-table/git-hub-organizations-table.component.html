@@ -5,11 +5,12 @@
     <table class='organizations-table'>
         <thead>
             <tr>
-                <th>ID</th> <th>Login</th> <th>Description</th>
+                <th>Icon</th><th>ID</th> <th>Login</th> <th>Description</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let organization of organizations">
+                <td><img class='orgIcon' src={{organization.avatar_url}}/></td>
                 <td> {{ organization.id }} </td>
                 <td><a href={{organization.url}}>{{ organization.login }}</a>  </td>
                 <td> {{ organization.description }} </td>
