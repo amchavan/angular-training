@@ -33,6 +33,10 @@
     color: #004f87;
 }
 
+tr.description-row {
+    font-size:larger;
+}
+
 .orgIcon {
     height: 16px;
 }

@@ -9,7 +9,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let organization of organizations">
+            <tr *ngFor="let organization of organizations" [ngClass]="{'description-row': (organization.description) }">
                 <td><img class='orgIcon' src={{organization.avatar_url}}/></td>
                 <td> {{ organization.id }} </td>
                 <td><a href={{organization.url}}>{{ organization.login }}</a>  </td>
