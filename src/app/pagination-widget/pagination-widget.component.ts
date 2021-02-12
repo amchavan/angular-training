@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
     selector: 'app-pagination-widget',
@@ -10,6 +10,9 @@ export class PaginationWidgetComponent implements OnInit {
     @Input()
     currentPage = 0;
 
+    @Output()
+    newPageNumberEventEmitter = new EventEmitter<number>();
+
     constructor() { }
 
     ngOnInit(): void {
@@ -18,10 +21,12 @@ export class PaginationWidgetComponent implements OnInit {
     previous(): void {
         if ( this.currentPage > 1 ) {
             this.currentPage--;
+            this.newPageNumberEventEmitter.next( this.currentPage );
         }
     }
 
     next(): void {
         this.currentPage++;
+        this.newPageNumberEventEmitter.next( this.currentPage );
     }
 }

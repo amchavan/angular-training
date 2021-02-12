@@ -30,7 +30,7 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
             });
     }
 
-    newCurrentPageEventHandler( newPageNumber: number ): void {
+    newPageNumberEventHandler( newPageNumber: number ): void {
         this.currentPage = newPageNumber;
         this.loadOrganizationsPage( this.pageSize, this.currentPage );
     }
