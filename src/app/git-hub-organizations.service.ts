@@ -21,15 +21,6 @@ export class GitHubOrganizationsService {
         this.pageMarkers = [0];
     }
 
-    fetchOrganizations( count: number,
-                        catchErrors: boolean = true ): Promise< void | GitHubOrganization[] > {
-        // See https://docs.github.com/en/rest/reference/orgs#list-organizations
-        const promise = this.httpClient.get<GitHubOrganization[]>( this.organizationsUrl + count ).toPromise();
-        return catchErrors
-            ? promise.catch( GitHubOrganizationsService.errorHandler )
-            : promise;
-    }
-
     fetchOrganizationsPage( pageSize: number,
                             page = 1,
                             catchErrors: boolean = true ): Promise< void | GitHubOrganization[] > {
