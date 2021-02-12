@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GitHubOrganizationsTableComponent } from './git-hub-organizations-table/git-hub-organizations-table.component';
+import { PaginationWidgetComponent } from './pagination-widget/pagination-widget.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        GitHubOrganizationsTableComponent
+        GitHubOrganizationsTableComponent,
+        PaginationWidgetComponent
     ],
     imports: [
         BrowserModule,
