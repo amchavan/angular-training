@@ -1,0 +1,35 @@
+.organizations-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+}
+
+.organizations-table thead tr {
+    background-color: #004f87;
+    color: #ffffff;
+    text-align: left;
+}
+
+.organizations-table th,
+.organizations-table td {
+    padding: 12px 15px;
+}
+
+.organizations-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.organizations-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.organizations-table tbody tr:last-of-type {
+    border-bottom: 2px solid #004f87;
+}
+
+.organizations-table tbody tr.description-row {
+    font-weight: bold;
+    font-style: italic;
+    color: #004f87;
+}
