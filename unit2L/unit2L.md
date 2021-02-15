@@ -1,7 +1,7 @@
 # Truthy and Falsy
 
-JavaScript has a flexible relationship with truth, and TypeScript inherited
-that. A flexible approach with true and false can be quite helpful, if
+JavaScript has a flexible relationship to truth, and TypeScript inherited
+that. A flexible approach to what is true or false can be quite helpful, if
 used wih care; it can also lead to spectacular bugs.
 
 ## Casting to boolean
