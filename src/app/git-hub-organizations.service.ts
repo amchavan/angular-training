@@ -3,12 +3,17 @@ import {HttpClient} from '@angular/common/http';
 import {GitHubOrganization} from './git-hub-organization';
 import {environment} from '../environments/environment.prod';
 
+interface DataPage {
+    marker: number;
+    organizations: GitHubOrganization[];
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class GitHubOrganizationsService {
 
-    private readonly pageMarkers: number[];
+    private readonly dataPages: DataPage[];
 
     private organizationsUrl = environment.gitHubApiUrl + '/organizations?per_page=';
 
@@ -18,7 +23,9 @@ export class GitHubOrganizationsService {
     }
 
     constructor( private httpClient: HttpClient ) {
-        this.pageMarkers = [0];
+        this.dataPages = [
+            { marker: 0, organizations: [] }
+        ];
     }
 
     fetchOrganizationsPage( pageSize: number,
@@ -34,21 +41,28 @@ export class GitHubOrganizationsService {
     /** Rudimentary paging queries of the organizations API -- don't use in production :-) */
     private fetchOrganizationsPageInternal( pageSize: number, page: number ): Promise< void | GitHubOrganization[] > {
 
-        // Check page number: it should
-        if ( page < 1 || page > this.pageMarkers.length ) {
-            const errorMessage = `Invalid page number: ${page}, should be between 1 and ${this.pageMarkers.length}`;
+        // Check page number
+        if ( page < 1 || page > this.dataPages.length ) {
+            const errorMessage = `Invalid page number: ${page}, should be between 1 and ${this.dataPages.length}`;
             return new Promise( (resolve, reject) => reject( new RangeError( errorMessage )));
         }
 
-        // If this is the first call, ignore the page number and get the first page
-        if ( this.pageMarkers.length === 1 ) {
+        // If we have cached that page already, let's just return it
+        if (page < this.dataPages.length ) {
+            return new Promise<GitHubOrganization[]>((resolve, ignored) => {
+                resolve(this.dataPages[page].organizations);
+            });
+        }
+
+        // If this is the first call, override the page number and get the first page
+        if ( this.dataPages.length === 1 ) {
             page = 1;
         }
 
         // Build the organization page URL, see https://docs.github.com/en/rest/reference/orgs#list-organizations
         // Need to retrieve entries whose ID is larger than the largest ID of the previous page
         const previousPage = page - 1;
-        const previousPageMarker = this.pageMarkers[ previousPage ];
+        const previousPageMarker = this.dataPages[ previousPage ].marker;
         const url = this.organizationsUrl + pageSize + '&since=' + previousPageMarker;
 
         // Read the requested page and, before we return the promise, save
@@ -58,7 +72,10 @@ export class GitHubOrganizationsService {
             const actualPageSize = organizationPage.length;
             const lastOrganizationIndex = actualPageSize - 1;
             const lastOrganization = organizationPage[ lastOrganizationIndex ];
-            this.pageMarkers[ page ] = lastOrganization.id;
+            this.dataPages[ page ] = {
+                marker: lastOrganization.id,
+                organizations: organizationPage
+            };
         });
 
         return promise;
