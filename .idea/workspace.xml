@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a6927034-5515-45f8-a86e-c3404c7593d2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit1L/unit1L.js" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit1L/unit1L.md" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,19 +51,6 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RunManager" selected="npm.Angular CLI Server">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="E2E Tests (angular-training)" type="JavaScriptTestRunnerProtractor">
       <config-file value="$PROJECT_DIR$/e2e/protractor.conf.js" />
       <node-interpreter value="project" />
@@ -95,6 +84,7 @@
       <workItem from="1612874664188" duration="20000" />
       <workItem from="1612874687743" duration="6934000" />
       <workItem from="1613392667866" duration="4083000" />
+      <workItem from="1613397977067" duration="627000" />
     </task>
     <servers />
   </component>

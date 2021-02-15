@@ -26,7 +26,6 @@ We also create an asynchronous version of the
 `addMessage()` method, one that waits for one second
 before performing the concatenation:
 ```typescript
-
 function addMessageAfterDelay(message: string): void {
     setTimeout(() => addMessage(message), 1000);
 }
@@ -182,6 +181,8 @@ async function example5(): Promise<void> {
     addMessage( 'Third' );
     console.log( '>>>', compositeMessage);
 }
+
+example5();
 ```
 
 **NOTE** The calling function – `example5()` in this case – becomes by necessity
