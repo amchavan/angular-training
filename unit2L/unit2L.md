@@ -6,7 +6,7 @@ used wih care; it can also lead to spectacular bugs.
 
 ## Casting to boolean
 
-JavaScript will go out of its way to cast a value to `bool`. It will cast 
+JavaScript will go out of its way to cast a value to `boolean`. It will cast 
 `1` to `true` and `0` to `false`, which can be relatively straightforward,
 but some of its choices are rather surprising.
 Those "good enough to be true" values are called _truthy_, and their opposite 

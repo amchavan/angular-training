@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit2L/unit2L.md" beforeDir="false" afterPath="$PROJECT_DIR$/unit2L/unit2L.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit2L/unit2L.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unit2L/unit2L.ts" afterDir="false" />
-    </list>
+    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +22,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectId" id="1oFFvR8zWAxNoY7gFSFzEu9Z7T6" />
   <component name="ProjectLevelVcsManager">
@@ -125,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613408814297</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Unit 2L: Final (?) commit">
+      <created>1613410421445</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1613410421445</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
