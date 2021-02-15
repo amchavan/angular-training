@@ -1,5 +1,9 @@
 function truthyOrFalsy(): void {
 
+    console.log( '----------------------------------' );
+    console.log( 'True or False' );
+    console.log( '----------------------------------' );
+
     let xAny;
     console.log( `${xAny} is ${!!xAny}` );
     
@@ -55,4 +59,39 @@ function truthyOrFalsy(): void {
     console.log( `${JSON.stringify(xObject)} is ${!!xObject}` );
 }
 
-truthyOrFalsy();
+function equalOrReallyEqual(): void {
+
+    console.log('----------------------------------');
+    console.log('Equal or Really Equal');
+
+    let xAny;
+    let yAny;
+
+    xAny = 0;
+    yAny = false;
+    console.log(`${xAny} == ${yAny}  => ${xAny == yAny}`);
+    console.log(`${xAny} === ${yAny} => ${xAny === yAny}`);
+
+    xAny = '';
+    yAny = false;
+    console.log(`"${xAny}" == ${yAny}  => ${xAny == yAny}`);
+    console.log(`"${xAny}" === ${yAny} => ${xAny === yAny}`);
+
+    xAny = '1';
+    yAny = true;
+    console.log(`"${xAny}" == ${yAny}  => ${xAny == yAny}`);
+    console.log(`"${xAny}" === ${yAny} => ${xAny === yAny}`);
+
+    xAny = '1';
+    yAny = 1;
+    console.log(`"${xAny}" == ${yAny}  => ${xAny == yAny}`);
+    console.log(`"${xAny}" === ${yAny} => ${xAny === yAny}`);
+
+    xAny = '';
+    yAny = false;
+    console.log(`"${xAny}" == ${yAny}  => ${xAny == yAny}`);
+    console.log(`"${xAny}" === ${yAny} => ${xAny === yAny}`);
+}
+
+// truthyOrFalsy();
+// equalOrReallyEqual();
