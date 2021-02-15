@@ -118,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613404564767</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Unit 2L: Final (?) commit">
+      <created>1613408814297</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1613408814297</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +152,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated IDE files" />
     <MESSAGE value="Unit 2L: intermediate commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Unit 2L: intermediate commit" />
+    <MESSAGE value="Unit 2L: Final commit" />
+    <MESSAGE value="Unit 2L: Final (?) commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unit 2L: Final (?) commit" />
   </component>
 </project>
