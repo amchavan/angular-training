@@ -1,5 +1,8 @@
 <div>
     <table class="organizations-table">
+        <colgroup>
+            <col >
+        </colgroup>
         <thead>
         <tr>
             <th>ID</th>
@@ -10,10 +13,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let organization of organizations">
-                <td> {{ organization.id }} </td>
-                <td> {{ organization.login }} </td>
-                <td> {{ organization.url }} </td>
-                <td> {{ organization.description }} </td>
+                <td class="id-col"> {{ organization.id }} </td>
+                <td class="login-col"> {{ organization.login }} </td>
+                <td class="url-col"> {{ organization.url }} </td>
+                <td class="description-col"> {{ organization.description }} </td>
             </tr>
         </tbody>
     </table>
