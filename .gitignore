@@ -1,2 +1,3 @@
 node_modules
-unit1L/unit1L.js
+/unit1L/*.js
+/unit2L/*.js
