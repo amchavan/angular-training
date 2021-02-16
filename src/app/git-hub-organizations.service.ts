@@ -13,7 +13,7 @@ interface DataPage {
 })
 export class GitHubOrganizationsService {
 
-    private readonly dataPages: DataPage[];
+    private dataPages: DataPage[];
 
     private organizationsUrl = environment.gitHubApiUrl + '/organizations?per_page=';
 
@@ -23,9 +23,7 @@ export class GitHubOrganizationsService {
     }
 
     constructor( private httpClient: HttpClient ) {
-        this.dataPages = [
-            { marker: 0, organizations: [] }
-        ];
+        this.clearOrganizationsCache();
     }
 
     fetchOrganizationsPage( pageSize: number,
@@ -79,6 +77,12 @@ export class GitHubOrganizationsService {
         });
 
         return promise;
+    }
+
+    public clearOrganizationsCache(): void {
+        this.dataPages = [
+            { marker: 0, organizations: [] }
+        ];
     }
 
     // Test method for fetchOrganizationsPage();

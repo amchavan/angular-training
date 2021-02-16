@@ -2,7 +2,15 @@
     <app-git-hub-organizations-table [organizations]="gitHubOrganizations">
     </app-git-hub-organizations-table>
 
-    <app-pagination-widget [currentPage]="currentPage"
-                           (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
-    </app-pagination-widget>
+    <div>
+        <app-pagination-widget class="line"
+                               [currentPage]="currentPage"
+                               (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
+        </app-pagination-widget>
+        <app-number-selector class="line"
+                             [selectedNumber]="pageSize"
+                             [possibleNumbers]="pageSizes"
+                             (newNumberEventEmitter)="newPageSizeEventHandler($event)">
+        </app-number-selector>
+    </div>
 </div>
