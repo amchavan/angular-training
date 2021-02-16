@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GitHubOrganizationsService} from '../git-hub-organizations.service';
+import {GitHubOrganizationDetails} from '../git-hub-organization-details';
 
 @Component({
     selector: 'app-git-hub-organization-details',
@@ -8,10 +9,19 @@ import {GitHubOrganizationsService} from '../git-hub-organizations.service';
 })
 export class GitHubOrganizationDetailsComponent implements OnInit {
 
-    constructor( private service: GitHubOrganizationsService ) { }
+    organizationDetails: GitHubOrganizationDetails;
+    organizationDetailKeys: string[];
 
-    ngOnInit(): void {
-        this.service.fetchOrganization( 'errfree' ).then( orgDetails => console.log( JSON.stringify( orgDetails )));
+    constructor(private service: GitHubOrganizationsService) {
     }
 
+    ngOnInit(): void {
+        this.service.fetchOrganization( 'errfree' ).then(orgDetails => {
+                if ( orgDetails ) {
+                    this.organizationDetails = orgDetails;
+                    this.organizationDetailKeys = Object.keys( orgDetails) ;
+                    // console.log(JSON.stringify( this.organizationDetailKeys ));
+                }
+            });
+    }
 }
