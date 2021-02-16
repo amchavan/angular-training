@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GitHubOrganization} from './git-hub-organization';
 import {environment} from '../environments/environment.prod';
+import {GitHubOrganizationDetails} from './git-hub-organization-details';
 
 interface DataPage {
     marker: number;
@@ -16,6 +17,7 @@ export class GitHubOrganizationsService {
     private readonly dataPages: DataPage[];
 
     private organizationsUrl = environment.gitHubApiUrl + '/organizations?per_page=';
+    private organizationDetailsUrl = environment.gitHubApiUrl + '/orgs';
 
     static errorHandler( error: any ): void {
         const errorString = error as Error ? error.message : JSON.stringify( error );
@@ -26,6 +28,22 @@ export class GitHubOrganizationsService {
         this.dataPages = [
             { marker: 0, organizations: [] }
         ];
+    }
+
+    fetchOrganization( organizationLogin: string,
+                       catchErrors: boolean = true  ): Promise<void|GitHubOrganizationDetails> {
+
+        // Check organizationLogin arg
+        if ( ! organizationLogin ) {
+            const errorMessage = 'Missing or empty "organizationLogin" arg';
+            return new Promise( (resolve, reject) => reject( new Error( errorMessage )));
+        }
+
+        const url = this.organizationDetailsUrl + '/' + organizationLogin;
+        const promise = this.httpClient.get<GitHubOrganizationDetails>( url ).toPromise();
+        return catchErrors
+            ? promise.catch( error => GitHubOrganizationsService.errorHandler( error ))
+            : promise;
     }
 
     fetchOrganizationsPage( pageSize: number,
