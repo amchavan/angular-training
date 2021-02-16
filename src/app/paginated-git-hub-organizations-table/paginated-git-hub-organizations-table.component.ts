@@ -11,7 +11,9 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
 
     gitHubOrganizations: GitHubOrganization[];
     currentPage = 1;    // Always start from the first page!
+    filter: string;
     readonly pageSize = 10;
+    readonly label = 'Filter';
 
     constructor( private gitHubOrganizationsService: GitHubOrganizationsService ) {
     }
@@ -33,5 +35,9 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
     newPageNumberEventHandler( newPageNumber: number ): void {
         this.currentPage = newPageNumber;
         this.loadOrganizationsPage( this.pageSize, this.currentPage );
+    }
+
+    newFilterEventHandler( newFilter: string): void {
+        this.filter = newFilter;
     }
 }

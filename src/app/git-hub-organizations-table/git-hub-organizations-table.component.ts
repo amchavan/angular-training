@@ -11,6 +11,9 @@ export class GitHubOrganizationsTableComponent implements OnInit {
     @Input()
     organizations: GitHubOrganization[];
 
+    @Input()
+    filter: string;
+
     constructor() {
         const i = 0;
     }

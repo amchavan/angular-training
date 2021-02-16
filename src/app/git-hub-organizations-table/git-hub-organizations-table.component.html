@@ -12,11 +12,13 @@
         </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let organization of organizations">
-                <td class="id-col"> {{ organization.id }} </td>
-                <td class="login-col"> {{ organization.login }} </td>
-                <td class="url-col"> {{ organization.url }} </td>
-                <td class="description-col"> {{ organization.description }} </td>
+            <tr *ngFor="let organization of organizations" >
+                <ng-container *ngIf="(!filter) || organization.login.includes( filter )">
+                    <td class="id-col"> {{ organization.id }} </td>
+                    <td class="login-col"> {{ organization.login }} </td>
+                    <td class="url-col"> {{ organization.url }} </td>
+                    <td class="description-col"> {{ organization.description }} </td>
+                </ng-container>
             </tr>
         </tbody>
     </table>

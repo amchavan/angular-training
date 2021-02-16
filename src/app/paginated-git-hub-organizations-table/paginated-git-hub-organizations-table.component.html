@@ -1,8 +1,15 @@
 <div>
-    <app-git-hub-organizations-table [organizations]="gitHubOrganizations">
+    <app-git-hub-organizations-table [organizations]="gitHubOrganizations"
+                                     [filter]="filter">
     </app-git-hub-organizations-table>
 
-    <app-pagination-widget [currentPage]="currentPage"
-                           (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
-    </app-pagination-widget>
+    <div>
+        <app-pagination-widget class="line"
+                               [currentPage]="currentPage"
+                               (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
+        </app-pagination-widget>
+        <app-key-by-key-text-input class="line"
+                                   [label]="label"
+                                   (newStringEventEmitter)="newFilterEventHandler($event)"></app-key-by-key-text-input>
+    </div>
 </div>
