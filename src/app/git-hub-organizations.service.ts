@@ -10,6 +10,9 @@ export class GitHubOrganizationsService {
 
     private readonly pageMarkers: number[];
 
+    // key: page, value: previously loaded GitHubOrganization[]
+    gitHubOrganizationsPageCache = new Map<number, GitHubOrganization[]>();
+
     private organizationsUrl = environment.gitHubApiUrl + '/organizations?per_page=';
 
     static errorHandler( error: any ): void {
@@ -45,6 +48,13 @@ export class GitHubOrganizationsService {
             page = 1;
         }
 
+        // check if the page data is already in the cache
+        if ( this.gitHubOrganizationsPageCache.has(page) ){
+            return new Promise<GitHubOrganization[]>((resolve) => {
+                resolve(this.gitHubOrganizationsPageCache.get(page));
+            });
+        }
+
         // Build the organization page URL, see https://docs.github.com/en/rest/reference/orgs#list-organizations
         // Need to retrieve entries whose ID is larger than the largest ID of the previous page
         const previousPage = page - 1;
@@ -59,6 +69,7 @@ export class GitHubOrganizationsService {
             const lastOrganizationIndex = actualPageSize - 1;
             const lastOrganization = organizationPage[ lastOrganizationIndex ];
             this.pageMarkers[ page ] = lastOrganization.id;
+            this.gitHubOrganizationsPageCache.set(page, organizationPage);
         });
 
         return promise;
