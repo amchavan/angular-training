@@ -1,1 +1,3 @@
 <app-git-hub-organizations-table [organizations]="gitHubOrganizations"></app-git-hub-organizations-table>
+
+<div *ngIf="errorMsg" class="error">Error: {{ errorMsg }} </div>

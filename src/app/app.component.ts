@@ -10,15 +10,21 @@ import {GitHubOrganization} from './git-hub-organization';
 export class AppComponent implements OnInit {
 
     gitHubOrganizations: GitHubOrganization[] = undefined;
+    errorMsg: string;
 
     constructor( private gitHubOrganizationsService: GitHubOrganizationsService ) {
     }
 
     ngOnInit(): void {
         this.gitHubOrganizationsService
-            .fetchOrganizations( 15 )
-            .then( organizations => {
-                if ( organizations ) { this.gitHubOrganizations = organizations; }
-            });
+            .fetchOrganizations( 20 )
+            .then( organizations => this.gitHubOrganizations =  organizations)
+            .catch( e => this.errorHandler(e));
     }
+
+    private errorHandler(error: any): void {
+        this.errorMsg = error.error.message;
+        console.error(JSON.stringify(error));
+    }
+
 }

@@ -18,11 +18,17 @@ export class GitHubOrganizationsService {
     constructor( private httpClient: HttpClient ) {
     }
 
-    fetchOrganizations( count: number,
-                        catchErrors: boolean = true ): Promise< void | GitHubOrganization[] > {
-        const promise = this.httpClient.get<GitHubOrganization[]>( this.organizationsUrl + count ).toPromise();
-        return catchErrors
-            ? promise.catch( GitHubOrganizationsService.errorHandler )
-            : promise;
+    fetchOrganizations(count: number): Promise< GitHubOrganization[] > {
+        const url = environment.gitHubApiUrl + '/organizations?per_page=' + count;
+        return this.httpClient.get<GitHubOrganization[]>(url)
+            .toPromise();
     }
+
+    // fetchOrganizations( count: number,
+    //                     catchErrors: boolean = true ): Promise< void | GitHubOrganization[] > {
+    //     const promise = this.httpClient.get<GitHubOrganization[]>( this.organizationsUrl + count ).toPromise();
+    //     return catchErrors
+    //         ? promise.catch( GitHubOrganizationsService.errorHandler )
+    //         : promise;
+    // }
 }
