@@ -1,5 +1,7 @@
 # Angular Training, Unit 4
 
+## Peer-to-peer communication
+
 In Unit 2 and 3 we have seen how to communicate from a parent 
 to child component and from the child back to the parent. 
 We'll see now how you can let two unrelated components 
