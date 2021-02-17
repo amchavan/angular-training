@@ -1,132 +1,239 @@
-# Angular Training, Unit 3B
+# Angular Training, Unit 4
 
-Unit 3 was about child-to-parent component communication. We
-coded a pagination widget based on `<button>` elements which
-sent events to the paginated table component; other
-than the `@Input` and `@Output` variables, child and parent
-are decoupled and make no assumptions about each other.
+In Unit 2 and 3 we have seen how to communicate from a parent 
+to child component and from the child back to the parent. 
+We'll see now how you can let two unrelated components 
+communicate with each other. 
 
-We'll re-iterate that approach in this unit, this time 
-using a `<select>` pulldown menu to choose a new data page size.
+We will extend our usage of the GitHub API to extract
+more information about a specific organization and display 
+a list of its features in a "details" component, 
+while our existing table maintains the role of displaying 
+"summary" information about a bunch of organizations. 
 
-## Refactoring the organizations service
+The summary and detail view are not hierarchically 
+related, and we'll learn how to let them
+communicate with each other: when the user selects 
+an organization in the list, the details about that 
+organization will be displayed in the new component.
 
-One of the exercises of Unit 3 was about caching the data pages,
-and a solution was provided in branch _unit3-exercises_.
-In order to allow a variable data page size we needed to allow
-for resetting the cache, and we took advantage of that
-for letting the service take care of the current data page
-size (as opposed to the client code).
+**NOTE**   The summary/detail pattern is very common in data-oriented UIs.
 
-Those changes are not discussed here.
+## Retrieving an organization's details
 
-## A new child component
-
-We need to define a new component to select the page size. We'll
-try to make as generic as possible, so we can re-use it if
-necessary. We'll need a `<select>` element to allow the user
-to choose from a fixed set of options, and a label to indicate
-what it is about:
-```bash
-ng generate component LabeledSelector
-```
-
-### HTML
-
-The HTML definition in _labeled-selector.component.html_ is very simple:
-```angular2html
-<div>
-    <label>
-        <span> {{ label }} </span>
-        &nbsp;
-        <select (change)="newSelectedOption($event)">
-            <option *ngFor="let option of options"
-                    [selected]="option == selectedOption">
-                {{ option }}
-            </option>
-        </select>
-    </label>
-</div>
-```
-`label` and `options` and  will be `@Input` 
-variables, with  `options` being the list of valid data page sizes. 
-
-`selectedOption` keeps track internally of what option is currently
-selected: that value will be displayed when
-the pulldown is collapsed.
-
-Finally, whenever the selection changes method `newSelectedOption()` will be called.
-
-### The controller
-
-In the controller we add a third `@Input` variable to
-indicate which option should be initially selected. We also add
-an `@Output` event emitter to alert our parent component
-that the selection has changed.
-
-**NOTE** We take advantage of TypeScript lax typing and use `any`
-for the options, so we can re-use this component to select
-strings or arbitrary objects.
-
+Our first step will be to retrieve an organization's details 
+from the API (see the API docs). 
+As it turns out, the API for details (`.../orgs/{login}`) 
+returns a superset of the data returned by the `organizations` 
+endpoint, so we can define the new interface as extending 
+_GitHubOrganization_.
+New file _git-hub-organization-details.ts_:
 ```typescript
+import { GitHubOrganization } from './git-hub-organization';
 
-    @Input()
-    label: string;
+export interface GitHubOrganizationDetails extends GitHubOrganization {
+    is_verified: boolean;
+    has_organization_projects: boolean;
+    has_repository_projects: boolean;
+    ...
+}
+```
+With that in place we can add a service method to load an 
+organization's detail information in
+_git-hub-organizations.service.ts_:
+```typescript
+    fetchOrganization( organizationLogin: string,
+                       catchErrors: boolean = true  ): 
+        Promise<void|GitHubOrganizationDetails> {
 
-    @Input()
-    initialSelectedOption: any;
+        ...
 
-    @Input()
-    options: any[];
+        const url = this.organizationDetailsUrl + '/' + organizationLogin;
+        const promise = this.httpClient.get<GitHubOrganizationDetails>( url ).toPromise();
+        return catchErrors
+            ? promise.catch( error => GitHubOrganizationsService.errorHandler( error ))
+            : promise;
+    }
+```
 
-    @Output()
-    newSelectionEventEmitter = new EventEmitter<any>();
+## A new component
 
-    selectedOption: any;
-
-    constructor() { }
+We need a component for the details:
+```
+    ng generate component git-hub-organization-details
+```
+We first integrate the service in the controller class
+and invoke it with a static organization login ("_errfree_"), 
+for a quick test:
+```typescript
+    constructor(private service: GitHubOrganizationsService) {
+    }
 
     ngOnInit(): void {
-        this.selectedOption = this.initialSelectedOption;
-    }
-
-    newSelectedOption(e: any ): void {
-        this.selectedOption = e.target.value
-        this.newSelectionEventEmitter.next( this.selectedOption );
+        this.service.fetchOrganization( 'errfree' ).then(orgDetails => {
+                if ( orgDetails ) {
+                    console.log( JSON.stringify( orgDetails ));
+                }
+            });
     }
 ```
-
-## Integrating with the parent
-
-We add the labeled selector to the paginated table component.
+Then we integrate the new component in `<app-root`>, that is, in _app.component.html_.
 ```angular2html
-    <app-labeled-selector class="line"
-                         [label]="dataPageSizeSelectorLabel"
-                         [options]="pageSizes"
-                         [initialSelectedOption]="pageSize"
-                         (newSelectionEventEmitter)="newPageSizeEventHandler($event)">
-    </app-labeled-selector>
+    <app-git-hub-organization-details></app-git-hub-organization-details>
 ```
-We need to wire the selector's input and output variables to
-new fields and methods in the paginated table controller:
+At startup time we should see that organization's detailed 
+data on the console.
+
+### Displaying details in the browser
+
+In _git-hub-organization-details.component.html_ we'll 
+display an organization's details in an `<ul>` element, which
+we'll populate dynamically from the organization details object:
+```angular2html
+<div>
+    <ul class=object>
+        <li *ngFor="let detailKey of organizationDetailKeys">
+            <span class="detail-name">  {{ detailKey }}                      </span>
+            <span class="detail-value"> {{ organizationDetails[detailKey] }} </span>
+        </li>
+    </ul>
+</div>
+```
+We'll need to define variables `organizationDetails` and 
+`organizationDetailKeys` in the component class, deriving the latter from 
+the first:
 ```typescript
-    pageSize = GitHubOrganizationsService.DEFAULT_DATA_PAGE_SIZE;
-    pageSizes = [5, 10, 15, 20, 25, 30];
-    dataPageSizeSelectorLabel = 'Page size';
+    organizationDetails: GitHubOrganizationDetails;
+    organizationDetailKeys: string[];
     
     ...
 
-    newPageSizeEventHandler( newPageSize: number ): void {
-        console.log( '>>>', newPageSize );
-        if ( this.pageSize !== newPageSize ) {
-            this.pageSize = newPageSize;
-            this.setDataPageSize( this.pageSize );
-            this.currentPage = 1;
-            this.loadOrganizationsPage( this.currentPage );
-        }
+    ngOnInit(): void {
+        this.service.fetchOrganization( 'errfree' ).then( orgDetails => {
+            if ( orgDetails ) {
+                this.organizationDetails = orgDetails;
+                this.organizationDetailKeys = Object.keys( this.organizationDetails );
+            }
+        });
+}
+```
+
+Finally, we'll add minimal styling to make the `<ul>` element to let
+it look a bit like a table (_git-hub-organization-details.component.ts_):
+```css
+.object {
+    list-style: none;
+}
+
+.detail-name {
+    display: inline-block; min-width: 200px
+}
+
+.detail-value {
+}
+```
+## Row selection
+
+At this point we have two unrelated components, one displaying
+a paginated table of organizations, and a new component displaying
+a single organization's details. When the user selects an organization
+on the list, we want the details component to show
+the details of that organization. 
+
+Our _GitHubOrganizationsTable_ does not support row selection yet. We
+can add that by modifying the definition of `<tr>` in 
+_git-hub-organizations-table.component.html_ to allow a mouse click:
+```angular2html
+            <tr *ngFor="let organization of organizations"
+                (click)="selectedRow(organization)" >
+```
+Method `selectedRow()` in the component class will be called with the
+selected organization.
+```typescript
+    selectedRow( organization: GitHubOrganization ): void {
+        // do something with that organization
     }
 ```
-**NOTE** When we change the size of the data pages the 
-cache is cleared; next time, the service will be fetching
-the first page, regardless of what we ask for. In the
-event handler we align our display with that.
+
+## Peer-to-peer communication
+
+We're now ready to aks the details component to
+display the selected organization, but that component and the table
+are not in a parent-child relationship, and we cannot directly 
+use the techniques we learned in the previous Units.
+
+We can however build on the same mechanism Angular employs 
+for `@Output` parameters: an `EventEmitter` acting as
+a message exchange between any two components.
+
+We define an interface describing the table row selection
+event, and a service for exchanging events to inject into 
+the components.
+```bash
+ng generate interface OrganizationSelectionEvent
+ng generate service SelectionEvents
+```
+The interface includes the selected organization:
+```typescript
+import {GitHubOrganization} from './git-hub-organization';
+
+export interface OrganizationSelectionEvent {
+    organization: GitHubOrganization;
+}
+```
+The service wraps an _EventEmitter_ instance and offers a simple
+API to send events and access an _Observable_ we can subscribe to.
+
+**NOTE** From the 
+[Angular docs](https://angular.io/guide/observables):
+_Observables provide support 
+for passing messages between parts of your application. 
+They are used frequently in Angular and are a technique 
+for event handling, asynchronous programming, and 
+handling multiple values._ 
+```typescript
+export class SelectionEventsExchangeService {
+
+    private emitter = new EventEmitter<OrganizationSelectionEvent>();
+
+    constructor() {
+    }
+
+    public send( event: OrganizationSelectionEvent ): void {
+        this.emitter.next( event );
+    }
+
+    public getExchange(): Observable<OrganizationSelectionEvent> {
+        return this.emitter.asObservable();
+    }
+}
+```
+
+With that in place we can inject the event exchange service into
+our component classes. The organizations table will send a selection 
+event when the user clicks on a row 
+(_git-hub-organizations-table.component.ts_):
+```typescript
+    selectedRow( organization: GitHubOrganization ): void {
+        const message: OrganizationSelectionEvent = { organization: organization };
+        this.exchange.send( message );
+    }
+```
+The details component subscribes to the exchange upon initialization,
+and when the event arrives it uses the organization's _login_ field
+to load and then display the details:
+```typescript
+ngOnInit(): void {
+    this.exchange.getExchange().subscribe( event => this.selectionEventHandler( event ));
+}
+
+private selectionEventHandler( event: OrganizationSelectionEvent ): void {
+    this.service.fetchOrganization( event.organization.login )
+        .then( orgDetails => {
+            if (orgDetails) {
+                this.organizationDetails = orgDetails;
+                this.organizationDetailKeys = Object.keys( this.organizationDetails );
+            }
+    });
+}
+```
