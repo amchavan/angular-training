@@ -1,0 +1,12 @@
+<div>
+    <label>
+        <span> {{ label }} </span>
+        &nbsp;
+        <select (change)="newSelectedOption($event)">
+            <option *ngFor="let option of options"
+                    [selected]="option == selectedOption">
+                {{ option }}
+            </option>
+        </select>
+    </label>
+</div>
