@@ -14,8 +14,10 @@ interface DataPage {
 })
 export class GitHubOrganizationsService {
 
-    private readonly dataPages: DataPage[];
+    static readonly DEFAULT_DATA_PAGE_SIZE = 10;
 
+    private dataPages: DataPage[];
+    private dataPageSize = GitHubOrganizationsService.DEFAULT_DATA_PAGE_SIZE;
     private organizationsUrl = environment.gitHubApiUrl + '/organizations?per_page=';
     private organizationDetailsUrl = environment.gitHubApiUrl + '/orgs';
 
@@ -25,9 +27,12 @@ export class GitHubOrganizationsService {
     }
 
     constructor( private httpClient: HttpClient ) {
-        this.dataPages = [
-            { marker: 0, organizations: [] }
-        ];
+        this.clearOrganizationsCache();
+    }
+
+    setDataPageSize( dataPageSize: number ): void {
+        this.dataPageSize = dataPageSize;
+        this.clearOrganizationsCache();
     }
 
     fetchOrganization( organizationLogin: string,
@@ -46,18 +51,17 @@ export class GitHubOrganizationsService {
             : promise;
     }
 
-    fetchOrganizationsPage( pageSize: number,
-                            page = 1,
+    fetchOrganizationsPage( page = 1,
                             catchErrors: boolean = true ): Promise< void | GitHubOrganization[] > {
 
-        const promise = this.fetchOrganizationsPageInternal( pageSize, page );
+        const promise = this.fetchOrganizationsPageInternal( page );
         return catchErrors
             ? promise.catch( error => GitHubOrganizationsService.errorHandler( error ))
             : promise;
     }
 
     /** Rudimentary paging queries of the organizations API -- don't use in production :-) */
-    private fetchOrganizationsPageInternal( pageSize: number, page: number ): Promise< void | GitHubOrganization[] > {
+    private fetchOrganizationsPageInternal( page: number ): Promise< void | GitHubOrganization[] > {
 
         // Check page number
         if ( page < 1 || page > this.dataPages.length ) {
@@ -81,7 +85,7 @@ export class GitHubOrganizationsService {
         // Need to retrieve entries whose ID is larger than the largest ID of the previous page
         const previousPage = page - 1;
         const previousPageMarker = this.dataPages[ previousPage ].marker;
-        const url = this.organizationsUrl + pageSize + '&since=' + previousPageMarker;
+        const url = this.organizationsUrl + this.dataPageSize + '&since=' + previousPageMarker;
 
         // Read the requested page and, before we return the promise, save
         // the ID of the last organization in the pageMarkers array
@@ -99,24 +103,30 @@ export class GitHubOrganizationsService {
         return promise;
     }
 
+    public clearOrganizationsCache(): void {
+        this.dataPages = [
+            { marker: 0, organizations: [] }
+        ];
+    }
+
     // Test method for fetchOrganizationsPage();
     async fetchOrganizationsPageTest(): Promise<void> {
-        await this.fetchOrganizationsPage( 10, 0 );    // ERROR
+        await this.fetchOrganizationsPage( 0 );    // ERROR
 
-        await this.fetchOrganizationsPage( 10, 2 );    // ERROR
+        await this.fetchOrganizationsPage( 2 );    // ERROR
 
-        await this.fetchOrganizationsPage( 10, 1 )
-            .then( organizations => console.log( '10, 1', organizations ));
+        await this.fetchOrganizationsPage( 1 )
+            .then( organizations => console.log( '1', organizations ));
 
-        await this.fetchOrganizationsPage( 10, 2 )
-            .then( organizations => console.log(  '10, 2', organizations ));
+        await this.fetchOrganizationsPage( 2 )
+            .then( organizations => console.log(  '2', organizations ));
 
-        await this.fetchOrganizationsPage( 10, 3 )
-            .then( organizations => console.log(  '10, 3', organizations ));
+        await this.fetchOrganizationsPage( 3 )
+            .then( organizations => console.log(  '3', organizations ));
 
-        await this.fetchOrganizationsPage( 10, 2 )
-            .then( organizations => console.log(  '10, 2', organizations ));
+        await this.fetchOrganizationsPage( 2 )
+            .then( organizations => console.log(  '2', organizations ));
 
-        await this.fetchOrganizationsPage( 10, 5 );    // ERROR
+        await this.fetchOrganizationsPage( 5 );    // ERROR
     }
 }
