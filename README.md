@@ -7,13 +7,13 @@ than the `@Input` and `@Output` variables, child and parent
 are decoupled and make no assumptions about each other.
 
 We'll re-iterate that approach in this unit, this time 
-using an `<input>` text field to organizationLoginFilter the currently
+using an `<input>` text field to filter the currently
 displayed organizations, showing only those
 whose _login_ field matches the text we're typing.
 
 ## A new child component
 
-We need to define a new component type the organizationLoginFilter text. As usual, 
+We need to define a new component type the filter text. As usual, 
 we'll
 try to make as generic as possible, so we can re-use it if
 necessary. We'll need a `<input>` element to type in, and a filterLabel to indicate
