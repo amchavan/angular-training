@@ -1,6 +1,6 @@
 <div>
     <app-git-hub-organizations-table [organizations]="gitHubOrganizations"
-                                     [filter]="filter">
+                                     [organizationLoginFilter]="filter">
     </app-git-hub-organizations-table>
 
     <div>
@@ -9,7 +9,8 @@
                                (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
         </app-pagination-widget>
         <app-key-by-key-text-input class="line"
-                                   [label]="label"
-                                   (newStringEventEmitter)="newFilterEventHandler($event)"></app-key-by-key-text-input>
+                                   [label]="filterLabel"
+                                   (newStringEventEmitter)="newFilterEventHandler($event)">
+        </app-key-by-key-text-input>
     </div>
 </div>

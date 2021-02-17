@@ -12,14 +12,12 @@ export class GitHubOrganizationsTableComponent implements OnInit {
     organizations: GitHubOrganization[];
 
     @Input()
-    filter: string;
+    organizationLoginFilter: string;
 
     constructor() {
-        const i = 0;
     }
 
     ngOnInit(): void {
-        const i = 0;
     }
 
 }

@@ -19,7 +19,7 @@ export class KeyByKeyTextInputComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    onKey( newString: string ): void {
+    onKeyUp( newString: string ): void {
         this.newStringEventEmitter.next( newString );
     }
 }

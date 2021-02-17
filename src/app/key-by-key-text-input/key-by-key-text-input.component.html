@@ -1,6 +1,8 @@
-<span>
-    <span>{{ label }}</span>
-    &nbsp;
-    &nbsp;
-    <input #textBox (keyup)="onKey(textBox.value)">
-</span>
+<div>
+    <label>
+        <span>{{ label }}</span>
+        &nbsp;
+        <input #textBox (keyup)="onKeyUp(textBox.value)">
+    </label>
+</div>
+

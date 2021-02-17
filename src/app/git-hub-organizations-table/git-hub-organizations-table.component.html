@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let organization of organizations" >
-                <ng-container *ngIf="(!filter) || organization.login.includes( filter )">
+                <ng-container *ngIf="(!organizationLoginFilter) || organization.login.includes( organizationLoginFilter )">
                     <td class="id-col"> {{ organization.id }} </td>
                     <td class="login-col"> {{ organization.login }} </td>
                     <td class="url-col"> {{ organization.url }} </td>
