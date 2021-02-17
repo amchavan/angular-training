@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {GitHubOrganizationsService} from '../git-hub-organizations.service';
 import {GitHubOrganizationDetails} from '../git-hub-organization-details';
+import {SelectionEventsExchangeService} from '../selection-events-exchange.service';
+import {OrganizationSelectionEvent} from '../organization-selection-event';
 
 @Component({
     selector: 'app-git-hub-organization-details',
@@ -12,12 +14,18 @@ export class GitHubOrganizationDetailsComponent implements OnInit {
     organizationDetails: GitHubOrganizationDetails;
     organizationDetailKeys: string[];
 
-    constructor(private service: GitHubOrganizationsService) {
+    constructor( private service: GitHubOrganizationsService,
+                 private exchange: SelectionEventsExchangeService ) {
     }
 
     ngOnInit(): void {
-        this.service.fetchOrganization( 'errfree' ).then( orgDetails => {
-                if ( orgDetails ) {
+        this.exchange.getExchange().subscribe( event => this.selectionEventHandler( event ));
+    }
+
+    private selectionEventHandler( event: OrganizationSelectionEvent ): void {
+        this.service.fetchOrganization( event.organization.login )
+            .then( orgDetails => {
+                if (orgDetails) {
                     this.organizationDetails = orgDetails;
                     this.organizationDetailKeys = Object.keys( this.organizationDetails );
                 }

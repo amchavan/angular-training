@@ -12,7 +12,9 @@
         </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let organization of organizations">
+            <tr *ngFor="let organization of organizations"
+                (click)="selectedRow(organization)" >
+
                 <td class="id-col"> {{ organization.id }} </td>
                 <td class="login-col"> {{ organization.login }} </td>
                 <td class="url-col"> {{ organization.url }} </td>

@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GitHubOrganization} from '../git-hub-organization';
+import {SelectionEventsExchangeService} from '../selection-events-exchange.service';
+import {OrganizationSelectionEvent} from '../organization-selection-event';
 
 @Component({
     selector: 'app-git-hub-organizations-table',
@@ -11,12 +13,14 @@ export class GitHubOrganizationsTableComponent implements OnInit {
     @Input()
     organizations: GitHubOrganization[];
 
-    constructor() {
-        const i = 0;
+    constructor( private exchange: SelectionEventsExchangeService ) {
     }
 
     ngOnInit(): void {
-        const i = 0;
     }
 
+    selectedRow( organization: GitHubOrganization ): void {
+        const message: OrganizationSelectionEvent = { organization }; // using shorthand instead of { organization: organization }
+        this.exchange.send( message );
+    }
 }

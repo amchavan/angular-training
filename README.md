@@ -81,7 +81,7 @@ Then we integrate the new component in `<app-root`>, that is, in _app.component.
 ```angular2html
     <app-git-hub-organization-details></app-git-hub-organization-details>
 ```
-Upon startup, we should see that organization's detailed 
+At startup time we should see that organization's detailed 
 data on the console.
 
 ### Displaying details in the browser
@@ -132,15 +132,108 @@ it look a bit like a table (_git-hub-organization-details.component.ts_):
 .detail-value {
 }
 ```
+## Row selection
 
-## Peer-to-peer communication
-
-At this point we have two unrelated components, one displaying 
+At this point we have two unrelated components, one displaying
 a paginated table of organizations, and a new component displaying
 a single organization's details. When the user selects an organization
 on the list, we want the details component to show
-the details of that organization, but the components are not in a 
-parent-child relationship and we cannot use the techniques we learned
-in the previous Units.
+the details of that organization. 
 
-Angular ### DA QUI ###
+Our _GitHubOrganizationsTable_ does not support row selection yet. We
+can add that by modifying the definition of `<tr>` in 
+_git-hub-organizations-table.component.html_ to allow a mouse click:
+```angular2html
+            <tr *ngFor="let organization of organizations"
+                (click)="selectedRow(organization)" >
+```
+Method `selectedRow()` in the component class will be called with the
+selected organization.
+```typescript
+    selectedRow( organization: GitHubOrganization ): void {
+        // do something with that organization
+    }
+```
+
+## Peer-to-peer communication
+
+We're now ready to aks the details component to
+display the selected organization, but that component and the table
+are not in a parent-child relationship, and we cannot directly 
+use the techniques we learned in the previous Units.
+
+We can however build on the same mechanism Angular employs 
+for `@Output` parameters: an `EventEmitter` acting as
+a message exchange between any two components.
+
+We define an interface describing the table row selection
+event, and a service for exchanging events to inject into 
+the components.
+```bash
+ng generate interface OrganizationSelectionEvent
+ng generate service SelectionEvents
+```
+The interface includes the selected organization:
+```typescript
+import {GitHubOrganization} from './git-hub-organization';
+
+export interface OrganizationSelectionEvent {
+    organization: GitHubOrganization;
+}
+```
+The service wraps an _EventEmitter_ instance and offers a simple
+API to send events and access an _Observable_ we can subscribe to.
+
+**NOTE** From the 
+[Angular docs](https://angular.io/guide/observables):
+_Observables provide support 
+for passing messages between parts of your application. 
+They are used frequently in Angular and are a technique 
+for event handling, asynchronous programming, and 
+handling multiple values._ 
+```typescript
+export class SelectionEventsExchangeService {
+
+    private emitter = new EventEmitter<OrganizationSelectionEvent>();
+
+    constructor() {
+    }
+
+    public send( event: OrganizationSelectionEvent ): void {
+        this.emitter.next( event );
+    }
+
+    public getExchange(): Observable<OrganizationSelectionEvent> {
+        return this.emitter.asObservable();
+    }
+}
+```
+
+With that in place we can inject the event exchange service into
+our component classes. The organizations table will send a selection 
+event when the user clicks on a row 
+(_git-hub-organizations-table.component.ts_):
+```typescript
+    selectedRow( organization: GitHubOrganization ): void {
+        const message: OrganizationSelectionEvent = { organization: organization };
+        this.exchange.send( message );
+    }
+```
+The details component subscribes to the exchange upon initialization,
+and when the event arrives it uses the organization's _login_ field
+to load and then display the details:
+```typescript
+ngOnInit(): void {
+    this.exchange.getExchange().subscribe( event => this.selectionEventHandler( event ));
+}
+
+private selectionEventHandler( event: OrganizationSelectionEvent ): void {
+    this.service.fetchOrganization( event.organization.login )
+        .then( orgDetails => {
+            if (orgDetails) {
+                this.organizationDetails = orgDetails;
+                this.organizationDetailKeys = Object.keys( this.organizationDetails );
+            }
+    });
+}
+```
