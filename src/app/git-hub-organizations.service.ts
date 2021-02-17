@@ -36,7 +36,8 @@ export class GitHubOrganizationsService {
     }
 
     fetchOrganization( organizationLogin: string,
-                       catchErrors: boolean = true  ): Promise<void|GitHubOrganizationDetails> {
+                       catchErrors: boolean = true  ):
+        Promise<void|GitHubOrganizationDetails> {
 
         // Check organizationLogin arg
         if ( ! organizationLogin ) {

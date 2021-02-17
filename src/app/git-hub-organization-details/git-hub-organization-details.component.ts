@@ -16,11 +16,10 @@ export class GitHubOrganizationDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.service.fetchOrganization( 'errfree' ).then(orgDetails => {
+        this.service.fetchOrganization( 'errfree' ).then( orgDetails => {
                 if ( orgDetails ) {
                     this.organizationDetails = orgDetails;
-                    this.organizationDetailKeys = Object.keys( orgDetails) ;
-                    // console.log(JSON.stringify( this.organizationDetailKeys ));
+                    this.organizationDetailKeys = Object.keys( this.organizationDetails );
                 }
             });
     }

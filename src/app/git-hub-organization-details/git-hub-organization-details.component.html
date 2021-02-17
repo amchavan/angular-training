@@ -1,7 +1,8 @@
 <div>
-    <ul style="list-style: none">
-        <li *ngFor="let detail of organizationDetailKeys">
-            <span style="display: inline-block; min-width: 200px">{{ detail }} </span> <span>  {{ organizationDetails[detail] }} </span>
+    <ul class=object>
+        <li *ngFor="let detailKey of organizationDetailKeys">
+            <span class="detail-name">  {{ detailKey }}                      </span>
+            <span class="detail-value"> {{ organizationDetails[detailKey] }} </span>
         </li>
     </ul>
 </div>

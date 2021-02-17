@@ -1,0 +1,10 @@
+.object {
+    list-style: none;
+}
+
+.detail-name {
+    display: inline-block; min-width: 200px
+}
+
+.detail-value {
+}
