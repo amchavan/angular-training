@@ -7,10 +7,12 @@
                                [currentPage]="currentPage"
                                (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
         </app-pagination-widget>
-        <app-number-selector class="line"
-                             [selectedNumber]="pageSize"
-                             [possibleNumbers]="pageSizes"
-                             (newNumberEventEmitter)="newPageSizeEventHandler($event)">
-        </app-number-selector>
+
+        <app-labeled-selector class="line"
+                             [label]="dataPageSizeSelectorLabel"
+                             [options]="pageSizes"
+                             [initialSelectedOption]="pageSize"
+                             (newSelectionEventEmitter)="newPageSizeEventHandler($event)">
+        </app-labeled-selector>
     </div>
 </div>

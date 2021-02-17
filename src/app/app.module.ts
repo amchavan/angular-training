@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { GitHubOrganizationsTableComponent } from './git-hub-organizations-table/git-hub-organizations-table.component';
 import { PaginationWidgetComponent } from './pagination-widget/pagination-widget.component';
 import { PaginatedGitHubOrganizationsTableComponent } from './paginated-git-hub-organizations-table/paginated-git-hub-organizations-table.component';
-import { NumberSelectorComponent } from './number-selector/number-selector.component';
+import { LabeledSelectorComponent } from './labeled-selector/labeled-selector.component';
 
 @NgModule({
     declarations: [
@@ -13,7 +13,7 @@ import { NumberSelectorComponent } from './number-selector/number-selector.compo
         GitHubOrganizationsTableComponent,
         PaginationWidgetComponent,
         PaginatedGitHubOrganizationsTableComponent,
-        NumberSelectorComponent
+        LabeledSelectorComponent
     ],
     imports: [
         BrowserModule,

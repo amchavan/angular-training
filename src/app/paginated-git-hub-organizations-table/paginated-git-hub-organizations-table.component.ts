@@ -11,21 +11,41 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
 
     gitHubOrganizations: GitHubOrganization[];
     currentPage = 1;    // Always start from the first page!
-    pageSize: number;
-    pageSizes: number[];
+    pageSize = GitHubOrganizationsService.DEFAULT_DATA_PAGE_SIZE;
+    pageSizes = [5, 10, 15, 20, 25, 30];
+    dataPageSizeSelectorLabel = 'Page size';
 
     constructor( private gitHubOrganizationsService: GitHubOrganizationsService ) {
-        this.pageSize = 10;
-        this.pageSizes = [5, 10, 15, 20, 25, 30];
     }
 
     ngOnInit(): void {
-        this.loadOrganizationsPage( this.pageSize, this.currentPage );
+        this.setDataPageSize( this.pageSize );
+        this.loadOrganizationsPage( this.currentPage );
     }
 
-    private loadOrganizationsPage( pageSize: number, currentPage: number ): void {
+    newPageNumberEventHandler( newPageNumber: number ): void {
+        this.currentPage = newPageNumber;
+        this.loadOrganizationsPage( this.currentPage );
+    }
+
+    newPageSizeEventHandler( newPageSize: number ): void {
+        console.log( '>>>', newPageSize );
+        if ( this.pageSize !== newPageSize ) {
+
+            this.pageSize = newPageSize;
+            this.setDataPageSize( this.pageSize );
+
+            // Since we changed the size of the data pages the cache is now
+            // dead and the service will fetch the first page, regardless.
+            // Let's align our display with that
+            this.currentPage = 1;
+            this.loadOrganizationsPage( this.currentPage );
+        }
+    }
+
+    private loadOrganizationsPage( currentPage: number ): void {
         this.gitHubOrganizationsService
-            .fetchOrganizationsPage( pageSize, currentPage )
+            .fetchOrganizationsPage( currentPage )
             .then(organizations => {
                 if (organizations) {
                     this.gitHubOrganizations = organizations;
@@ -33,22 +53,7 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
             });
     }
 
-    newPageNumberEventHandler( newPageNumber: number ): void {
-        this.currentPage = newPageNumber;
-        this.loadOrganizationsPage( this.pageSize, this.currentPage );
-    }
-
-    private clearOrganizationsCache(): void {
-        this.gitHubOrganizationsService.clearOrganizationsCache();
-    }
-
-    newPageSizeEventHandler( newPageSize: number ): void {
-        console.log( '>>>', newPageSize );
-        if ( this.pageSize !== newPageSize ) {
-            this.pageSize = newPageSize;
-            this.currentPage = 1;
-            this.clearOrganizationsCache();
-            this.loadOrganizationsPage( this.pageSize, this.currentPage );
-        }
+    private setDataPageSize( dataPageSize: number ): void {
+        this.gitHubOrganizationsService.setDataPageSize( dataPageSize );
     }
 }
