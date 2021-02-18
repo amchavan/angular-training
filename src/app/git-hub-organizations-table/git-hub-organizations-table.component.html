@@ -12,7 +12,7 @@
             <tr *ngFor="let organization of organizations">
                 <td> {{ organization.id }} </td>
                 <td> {{ organization.login }} </td>
-                <td> {{ organization.url }} </td>
+                <td><a href='{{ organization.url }}'> {{ organization.url }}</a> </td>
                 <td> {{ organization.description }} </td>
             </tr>
         </tbody>
