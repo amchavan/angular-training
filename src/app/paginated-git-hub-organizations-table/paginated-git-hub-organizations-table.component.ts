@@ -11,7 +11,7 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
 
     gitHubOrganizations: GitHubOrganization[];
     currentPage = 1;    // Always start from the first page!
-    readonly pageSize = 10;
+    readonly pageSize = 2;
 
     constructor( private gitHubOrganizationsService: GitHubOrganizationsService ) {
     }

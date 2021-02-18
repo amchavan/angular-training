@@ -34,3 +34,16 @@
     font-weight: bold;
     color: #004f87;
 }
+
+#colId {
+    width: 5%;
+}
+#colLogin{
+    width: 20%;
+}
+#colUrl {
+    width: 35%;
+}
+#colDesc {
+    width: 40%;
+}
