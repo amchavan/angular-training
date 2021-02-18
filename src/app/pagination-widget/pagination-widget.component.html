@@ -1,9 +1,9 @@
-<div>
-    <span>
-        <button (click)="previous()"> &laquo; </button>
-    </span>
-    <span> {{ currentPage }} </span>
-    <span>
-        <button (click)="next()"> &raquo; </button>
-    </span>
+<div class="btn-div">
+    <div class="page-num-div">
+        <i class="far left fa-hand-point-left" (click)="previous()"></i>
+
+        <span id="page-num"> {{ currentPage }} </span>
+
+        <i class="far right fa-hand-point-right" (click)="next()"></i>
+    </div>
 </div>
