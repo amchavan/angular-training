@@ -15,6 +15,7 @@
             <tr *ngFor="let organization of organizations"
                 (click)="selectedRow(organization)"
                 [ngClass]="{ 'selected-row': (organization === selectedOrganization) }" >
+
                 <td class="id-col"> {{ organization.id }} </td>
                 <td class="login-col"> {{ organization.login }} </td>
                 <td class="url-col"> {{ organization.url }} </td>
