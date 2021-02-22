@@ -1,6 +1,11 @@
 <div style="display: inline-block;">
     <app-paginated-git-hub-organizations-table></app-paginated-git-hub-organizations-table>
     <p></p>
-    <app-git-hub-organization-details></app-git-hub-organization-details>
+    <app-git-hub-organization-details
+            [detailDescriptors]="[
+                    {detailName: 'name', detailLabel: 'Organization' },
+                    {detailName: 'login'},
+                    {detailName: 'description'} ]">
+    </app-git-hub-organization-details>
 </div>
 

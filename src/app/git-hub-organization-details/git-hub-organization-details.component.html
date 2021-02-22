@@ -1,8 +1,8 @@
 <div>
     <ul class=object>
-        <li *ngFor="let detailKey of organizationDetailKeys">
-            <span class="detail-name">  {{ detailKey }}                      </span>
-            <span class="detail-value"> {{ organizationDetails[detailKey] }} </span>
+        <li *ngFor="let detailDescriptor of organizationDetailDescriptors">
+            <span class="detail-name">  {{ detailDescriptor.detailLabel ? detailDescriptor.detailLabel : detailDescriptor.detailName }}                      </span>
+            <span class="detail-value"> {{ organizationDetails[ detailDescriptor.detailName ] }} </span>
         </li>
     </ul>
 </div>
