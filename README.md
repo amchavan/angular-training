@@ -37,25 +37,36 @@ export interface GitHubOrganizationDetails extends GitHubOrganization {
     is_verified: boolean;
     has_organization_projects: boolean;
     has_repository_projects: boolean;
-    ...
+    public_repos: number;
+    public_gists: number;
+    followers: number;
+    following: number;
+    html_url: string;
+    created_at: string;
+    updated_at: string;
+    type: string;
 }
 ```
 With that in place we can add a service method to load an 
 organization's detail information in
 _git-hub-organizations.service.ts_:
 ```typescript
-    fetchOrganization( organizationLogin: string,
-                       catchErrors: boolean = true  ): 
-        Promise<void|GitHubOrganizationDetails> {
 
-        ...
+fetchOrganization( organizationLogin: string,
+                   catchErrors: boolean = true  ): Promise<void|GitHubOrganizationDetails> {
 
-        const url = this.organizationDetailsUrl + '/' + organizationLogin;
-        const promise = this.httpClient.get<GitHubOrganizationDetails>( url ).toPromise();
-        return catchErrors
-            ? promise.catch( error => GitHubOrganizationsService.errorHandler( error ))
-            : promise;
+    // Check organizationLogin arg
+    if ( ! organizationLogin ) {
+    const errorMessage = 'Missing or empty "organizationLogin" arg';
+    return new Promise( (resolve, reject) => reject( new Error( errorMessage )));
     }
+    
+    const url = this.organizationDetailsUrl + '/' + organizationLogin;
+    const promise = this.httpClient.get<GitHubOrganizationDetails>( url ).toPromise();
+    return catchErrors
+        ? promise.catch( error => GitHubOrganizationsService.errorHandler( error ))
+        : promise;
+}
 ```
 
 ## A new component
