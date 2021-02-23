@@ -1,20 +1,25 @@
+
 <div>
-    <table class="organizations-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Login</th>
-            <th>URL</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let organization of organizations">
-                <td> {{ organization.id }} </td>
-                <td> {{ organization.login }} </td>
-                <td> {{ organization.url }} </td>
-                <td> {{ organization.description }} </td>
-            </tr>
-        </tbody>
-    </table>
+    <mat-table [dataSource]="organizations" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let organization">{{organization.id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="login">
+            <mat-header-cell *matHeaderCellDef>Login</mat-header-cell>
+            <mat-cell *matCellDef="let organization">{{organization.login}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="url">
+            <mat-header-cell *matHeaderCellDef>URL</mat-header-cell>
+            <mat-cell *matCellDef="let organization">{{organization.url}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let  organization">{{organization.description}}</mat-cell>
+        </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
 </div>

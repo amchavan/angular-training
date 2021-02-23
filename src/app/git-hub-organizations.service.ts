@@ -12,6 +12,8 @@ export class GitHubOrganizationsService {
 
     private organizationsUrl = environment.gitHubApiUrl + '/organizations?per_page=';
 
+    cache = new Map();
+
     static errorHandler( error: any ): void {
         const errorString = error as Error ? error.message : JSON.stringify( error );
         console.error( '>>> Central error handling:', errorString );
@@ -29,11 +31,11 @@ export class GitHubOrganizationsService {
         return catchErrors
             ? promise.catch( error => GitHubOrganizationsService.errorHandler( error ))
             : promise;
+
     }
 
     /** Rudimentary paging queries of the organizations API -- don't use in production :-) */
     private fetchOrganizationsPageInternal( pageSize: number, page: number ): Promise< void | GitHubOrganization[] > {
-
         // Check page number: it should
         if ( page < 1 || page > this.pageMarkers.length ) {
             const errorMessage = `Invalid page number: ${page}, should be between 1 and ${this.pageMarkers.length}`;
@@ -51,14 +53,24 @@ export class GitHubOrganizationsService {
         const previousPageMarker = this.pageMarkers[ previousPage ];
         const url = this.organizationsUrl + pageSize + '&since=' + previousPageMarker;
 
+
+
+
+
         // Read the requested page and, before we return the promise, save
         // the ID of the last organization in the pageMarkers array
         const promise = this.httpClient.get<GitHubOrganization[]>( url ).toPromise();
+        if (this.cache.get(page) != null) {
+            console.log('>>>', 'using cache data');
+            return promise;
+        }
         promise.then( (organizationPage) => {
             const actualPageSize = organizationPage.length;
             const lastOrganizationIndex = actualPageSize - 1;
             const lastOrganization = organizationPage[ lastOrganizationIndex ];
             this.pageMarkers[ page ] = lastOrganization.id;
+            this.cache.set(page, lastOrganization.id);
+            console.log('>>>', 'fetching new data');
         });
 
         return promise;

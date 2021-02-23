@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { GitHubOrganizationsTableComponent } from './git-hub-organizations-table/git-hub-organizations-table.component';
 import { PaginationWidgetComponent } from './pagination-widget/pagination-widget.component';
 import { PaginatedGitHubOrganizationsTableComponent } from './paginated-git-hub-organizations-table/paginated-git-hub-organizations-table.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
     declarations: [
@@ -15,7 +17,9 @@ import { PaginatedGitHubOrganizationsTableComponent } from './paginated-git-hub-
     ],
     imports: [
         BrowserModule,
-        HttpClientModule
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatTableModule
     ],
     providers: [
         HttpClientModule
