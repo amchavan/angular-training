@@ -11,7 +11,11 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
 
     gitHubOrganizations: GitHubOrganization[];
     currentPage = 1;    // Always start from the first page!
-    readonly pageSize = 2;
+    //readonly pageSize = 2;
+    pageSize = GitHubOrganizationsService.DEFAULT_DATA_PAGE_SIZE;
+    pageSizes = [5, 10, 15, 20, 25, 30];
+    dataPageSizeSelectorLabel = 'Page size';
+
 
     constructor( private gitHubOrganizationsService: GitHubOrganizationsService ) {
     }
@@ -33,5 +37,16 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
     newPageNumberEventHandler( newPageNumber: number ): void {
         this.currentPage = newPageNumber;
         this.loadOrganizationsPage( this.pageSize, this.currentPage );
+    }
+
+
+    newPageSizeEventHandler( newPageSize: number ): void {
+        console.log( '>>>', newPageSize );
+        if ( this.pageSize !== newPageSize ) {
+            this.pageSize = newPageSize;
+            //this.setDataPageSize( this.pageSize );
+            this.currentPage = 1;
+            this.loadOrganizationsPage(this.pageSize, this.currentPage );
+        }
     }
 }

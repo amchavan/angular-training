@@ -5,4 +5,13 @@
     <app-pagination-widget [currentPage]="currentPage"
         (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
     </app-pagination-widget>
+
+    <app-labeled-selector class="line" 
+        [label]="dataPageSizeSelectorLabel" 
+        [options]="pageSizes"
+        [initialSelectedOption]="pageSize" 
+        (newSelectionEventEmitter)="newPageSizeEventHandler($event)">
+    </app-labeled-selector>
+
+    
 </div>

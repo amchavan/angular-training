@@ -9,6 +9,8 @@ import { CacheData } from './cache-data';
 })
 export class GitHubOrganizationsService {
 
+    public static DEFAULT_DATA_PAGE_SIZE = 5;
+
     private readonly pageMarkers: number[];
 
     private cache: CacheData[] = [];
