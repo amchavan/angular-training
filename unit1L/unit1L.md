@@ -11,35 +11,30 @@ TypeScript compiler:
 npm install -g typescript
 ```
 
-## Basic example
+## Basic use case
 
-In a script called _unit1L.ts_ we define a string variable and a method that concatenates
-another string to it:
+We define a method that outputs a 
+message to the console (_unit1L-1.ts_):
 ```typescript
-let compositeMessage = '';
-
-function addMessage(message: string): void {
-    compositeMessage += message + ' ';
+function typeMessage(message: string): void {
+    console.log( message );
 }
 ```
-We also create an asynchronous version of the 
+We also create a second version of the 
 `addMessage()` method, one that waits for one second
-before performing the concatenation:
+before writing the message:
 ```typescript
-function addMessageAfterDelay(message: string): void {
-    setTimeout(() => addMessage(message), 1000);
+function typeMessageAfterDelay(message: string): void {
+    setTimeout(() => typeMessage(message), 1000);
 }
 ```
 
 Finally, we call the two methods in a sequence:
 ```typescript
-
 function example1(): void {
-    compositeMessage = '';
-    addMessage('First');
-    addMessageAfterDelay('Second');
-    addMessage('Third');
-    console.log('>>>', compositeMessage);
+    typeMessage('First');
+    typeMessageAfterDelay('Second');
+    typeMessage('Third');
 }
 
 example1();
@@ -48,32 +43,111 @@ example1();
 We now compile the TypeScript source and run the resulting JavaScript code:
 ```text
 cd unit1L 
-tsc unit1L.ts && node unit1L.js 
+tsc unit1L-1.ts && node unit1L-1.js 
 ```
 One would expect to see
 ```text
->>> First Second Third
+First
+Second
+Third
 ```
 on the console, after about one second. In fact, what one sees is
 ```text
->>> First Third
+First
+Third
+Second
 ```
 
-What happens is, `setTimeout()` pushes its argument on the event queue: 
-the callback (in our case the string concatenation) will be executed
-after the expected delay, but `setTimeout()` _itself returns immediately_ 
-and logging is performed before string _Second_ is added.  
-`setTimeout()` is asynchronous: we can't wait for it to terminate, and it 
-cannot return any values to the caller.
+What happens is, `setTimeout()` _is asynchronous_ 
+(technically, it pushes its argument to the event queue): 
+the callback — in our case the console output — will be executed
+after the expected delay, but `setTimeout()` _itself returns immediately_,
+so logging of _Third_ is actually performed before _Second_.
 
-## Dealing with asynchronous functions
+##  Reactive programming and _Observables_
 
-Async functions are very common in Web applications: all HTTP requests
-are asynchronous, for instance. In the follow-up to Unit 1 we saw how 
-to use _Promises_ to deal with HTTP requests, and we can do the same here.
+_Reactive programming_ is a programming paradigm, 
+mainly concerned with asynchronous _data streams_.
+One can work reactively with synchronous data streams as well:
+Java's `streams` API does precisely that.
+
+The [RxJs library](https://rxjs-dev.firebaseapp.com/guide/overview)
+implements reactive programming for JavaScript and is used
+extensively by and with Angular. One of the main RxJS concepts 
+that of an _Observable_, defined as _an invokable 
+collection of future values or events_
+.  
+Observables implement the
+[_Observer pattern_](https://en.wikipedia.org/wiki/Observer_pattern), 
+in which you have a _Subject_ and one or more
+_Observers_, who are notified of any state changes:
+that is, "I am observing you, and if and when those values/events appear,
+this I want that to do with them".  
+Observers are passive and, indeed, reactive. 
+
+With Observables, you 
+_subscribe_ to those changes providing a callback function
+that will be called with every new value. You can also provide
+optional callbacks for _error_ and _completion_ conditions — that is,
+no more data/events are coming.
+
+### Very basic example
+
+This is a very simple, synchronous reactive example
+message to the console (_unit1L-2.ts_):
+```typescript
+import {Observer, of} from 'rxjs';
+
+const observable = of( 1, 2, 3 );
+
+const observer: Observer<number> = {
+    next: value => console.log( value ),
+    error: error => console.error( error ),
+    complete: () => console.log( 'Done' )
+};
+
+observable.subscribe( observer );
+```
+
+* Function `of()` creates an Observable that outputs its arguments
+* The Observer defines the callbacks for a new value (`next()`), 
+  an error condition (`error()`) and stream completion (`complete()`)
+* Method `subscribe()` couples Observable and Observer
+
+**NOTE** Creating an Observer _does not_ generate any data or events.
+Observables are lazy collections, values are generated only when an
+Observer is subscribed.
+
+### Push and pull
+
+One can see Observables as the "push" equivalent to a Java _Iterator_.
+While you "pull" values out of an Iterator until they are exhausted, 
+an Observable "pushes" its values out to the Observer.
+
+### Creating an Observable 
+
+Observables are often created for you, as for instance by the `get()`
+method of the HTTP client, and there are many useful functions in the RxJS
+API to help with creating Observables, like `of()`. One can also of course
+create an Observable directly, by writing their _subscriber_ function,
+that is, the function to invoke when the Observer subscribes
+to the Observable, and the values/states/events should actually be
+generated.
+
+We convert our first example to use an Observable instead:
+
+
+## Observables and Promises
+
+In the follow-up to Unit 1 we saw how 
+to use _Promises_ to deal with HTTP requests.
+
+
+
+nd we can do the same here.
 
 We review `addMessageAfterDelay()`: we wrap a Promise around the 
-Timeout object and return te Promise instead.
+Timeout object and return the Promise instead.
 ```typescript
 function addMessagePromise( message: string ): Promise<void> {
     return new Promise( (resolve, reject) => {
