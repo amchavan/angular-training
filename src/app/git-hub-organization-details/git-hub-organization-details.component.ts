@@ -14,6 +14,8 @@ export class GitHubOrganizationDetailsComponent implements OnInit {
     organizationDetails: GitHubOrganizationDetails;
     organizationDetailKeys: string[];
 
+    avatarURL: string;
+
     @Input()
     displayKeys: string[];
 
@@ -31,6 +33,7 @@ export class GitHubOrganizationDetailsComponent implements OnInit {
                 if (orgDetails) {
                     this.organizationDetails = orgDetails;
                     this.organizationDetailKeys = this.displayKeys; //Object.keys( this.organizationDetails );
+                    this.avatarURL = orgDetails.avatar_url;
                 }
             });
     }

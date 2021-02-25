@@ -6,5 +6,25 @@
     display: inline-block; min-width: 200px
 }
 
-.detail-value {
+.details-div {
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #004f87;
+    border-width: 2px;
+    margin: auto;
+}
+
+.header-div {
+    color: white;
+    background-color: #004f87;
+    margin: 2px;
+    height: 25px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.avatar {
+    height: 40px;
+    margin-left: 20px;
+    margin-top: 10px;
 }
