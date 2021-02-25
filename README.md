@@ -58,8 +58,7 @@ Third
 Second
 ```
 
-What happens is, `setTimeout()` _is asynchronous_
-(technically, it pushes its argument to the event queue):
+What happens is, `setTimeout()` _is asynchronous_:
 the callback — in our case the console output — will be executed
 after the expected delay, but `setTimeout()` _itself returns immediately_,
 so logging of _Third_ is actually performed before _Second_.
@@ -126,7 +125,7 @@ an Observable "pushes" its values out to the Observer.
 
 ### Creating an Observable
 
-Observables are often created for you, as for instance by the `get()`
+Observables are often created for you, for instance by the `get()`
 method of the HTTP client, and there are many useful functions in the RxJS
 API to help with creating Observables, like `of()`.  
 One can also of course
@@ -139,26 +138,25 @@ We now convert our first example to use an Observable/Observer pair:
 ```typescript
 import { Observable } from 'rxjs';
 
-function typeMessage(message: string): void {
-    console.log( message );
-}
-
-const observer = {
-  next: msg => typeMessage( msg as string ),
-  error: error => console.error( error )
-};
-
 const observable = new Observable( subscriber => {
     subscriber.next( 'First' );
     setTimeout(() => { subscriber.next( 'Second' ); }, 1000);
     subscriber.next( 'Third' );
 });
 
+function typeMessage(message: string): void {
+    console.log( message );
+}
+const observer = {
+  next: msg => typeMessage( msg as string ),
+  error: error => console.error( error )
+};
+
 observable.subscribe( observer );
 ```
 
-**NOTE** I initially found the _subscribe_/_subscriber_ naming confusing,
-but it actually makes sense. But I still get confused.
+**NOTE** I initially found the _subscribe_/_subscriber_ naming somewhat 
+confusing, but it actually makes sense, but I still get confused.
 
 ## Observables and Promises
 
