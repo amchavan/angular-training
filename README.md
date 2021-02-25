@@ -148,14 +148,14 @@ function typeMessage(message: string): void {
     console.log( message );
 }
 const observer = {
-  next: msg => typeMessage( msg as string ),
-  error: error => console.error( error )
+    next: msg => typeMessage( msg as string ),
+    error: error => console.error( error )
 };
 
 observable.subscribe( observer );
 ```
 
-**NOTE** I initially found the _subscribe_/_subscriber_ naming somewhat 
+**NOTE** I initially found the _subscribe_/_subscriber_ naming somewhat
 confusing, but it actually makes sense, but I still get confused.
 
 ## Observables and Promises
@@ -234,6 +234,8 @@ Running this example will output something like
 Done
 ```
 
+### Stand-alone recipes
+
 You can isolate the recipe and potentially use it with
 different Observables (_unit1L-3b.ts_):
 
@@ -258,56 +260,61 @@ const observer = {
 pipedObservable.subscribe( observer );
 ```
 
+## Promises
 
---------------
-
-We review `addMessageAfterDelay()`: we wrap a Promise around the
-Timeout object and return the Promise instead.
+Let's revisit our initial use case and try to deal with the asynchronous
+message. We have seen that Promises can help with that, so we wrap
+a Promise around the Timeout object and return the Promise instead
+(_unit1L-4.ts_):
 ```typescript
-function addMessagePromise( message: string ): Promise<void> {
+function typeMessage(message: string): void {
+    console.log( message );
+}
+
+// Async operation
+// function typeMessageAfterDelay(message: string): void {
+//     setTimeout(() => typeMessage(message), 1000);
+// }
+
+function typeMessagePromise(message: string): Promise<void> {
     return new Promise( (resolve, reject) => {
-        setTimeout(() => { compositeMessage += message + ' '; resolve(); },  1000);
+        setTimeout(() => { typeMessage(message); resolve(); },  1000);
     });
 }
-```
 
-Now we can rewrite the example to use what we already know about Promises,
-making sure that the third concatenation operation _and_ the log statement
-are executed in then() clause:
-```typescript
-function example2(): void {
-    compositeMessage = '';
-    addMessage( 'First' );
-    addMessagePromise( 'Second' )
-        .then( () => {
-            addMessage( 'Third' );
-            console.log( '>>>', compositeMessage);
-        });
+function example4(): void {
+    typeMessage('First');
+    typeMessagePromise('Second').then( () => typeMessage('Third') );
 }
 
-example2();
+example4();
 ```
 
-When compile and run our script we see on the console:
+When compile and run our script we finally see on the console what
+we wanted to see:
+
 ```text
->>> 2 First Second Third
+First
+Second
+Third
 ``` 
 ### Creating promises
 
-The syntax for creating our promise is not very obvious at first sight,
+The syntax for creating our promise is not very obvious,
 and in fact this is a rather contrived example.  
 Let's try with a more meaningful one.
 
-Let's say want the promise to "resolve" with the square root of _x_
-if that number is non-negative and "reject" with an error message
-otherwise; and let's pretend for a minute that taking a square
-root is an asynchronous operation, so we need to wrap that in
-a Promise.
+Let's say want a promise that "resolves" with the square root of _x_
+if that number is non-negative and "reject" with an error text message
+otherwise.
 
-The constructor is given a pair of functions, one to return the results
-of the happy path, the other for the error case. In the body
+**NOTE** This promise resolves synchronously.
+
+The Promise constructor is given a pair of functions,
+one to return the results
+of the "happy path", the other for the error case. In the body
 of the constructor you'll need to call either one depending on the
-sign of _x_:
+sign of _x_ (_unit1L-5.ts_):
 ```typescript
 function squareRootPromise( x: number ): Promise<string|number> {
     return new Promise<string|number>( (resolve, reject) => {
@@ -320,29 +327,32 @@ function squareRootPromise( x: number ): Promise<string|number> {
     });
 }
 ```
-**NOTE** A Promise that never calls `reject()` will always _resolve_ with some
-value; one that never calls `resolve()` will always _reject_.
 
 **NOTE** The notation `Promise<string|number>` indicates that the Promise
 ultimately return a string error message _or_ a number.
 
 We can now trigger both a resolve and a reject:
-````typescript
-function example3(): void {
-    let x = 9;
-    squareRootPromise( x ).then( sqrt => console.log( '>>> sqrt(' + x + ') = ' + sqrt ));
 
-    x = -1;
-    squareRootPromise( x ).catch( error => console.error( '>>> ' + error ));
+````typescript
+
+function example5(): void {
+    const good = 9;
+    squareRootPromise( good ).then( sqrt => console.log( 'sqrt(' + good + ') = ' + sqrt ));
+
+    const bad = -1;
+    squareRootPromise( bad ).catch( error => console.error( error ));
 }
 
-example3();
+example5();
 ````
 When compile and run our script we see on the console:
 ```text
->>> sqrt(-1) = 3
->>> Negative arg: -1
-``` 
+sqrt(9) = 3
+Negative arg: -1
+```
+
+**NOTE** A Promise that never calls `reject()` will always _resolve_ with some
+value; one that never calls `resolve()` will always _reject_.
 
 ## Alternative implementation
 
