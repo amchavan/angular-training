@@ -14,6 +14,10 @@
     margin: auto;
 }
 
+.top-div {
+    width: 100%;
+}
+
 .header-div {
     color: white;
     background-color: #004f87;
@@ -21,6 +25,7 @@
     height: 25px;
     text-align: center;
     vertical-align: middle;
+    width: 100%;
 }
 
 .avatar {
