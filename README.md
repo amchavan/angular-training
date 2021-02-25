@@ -158,6 +158,31 @@ observable.subscribe( observer );
 **NOTE** I initially found the _subscribe_/_subscriber_ naming somewhat
 confusing, but it actually makes sense, but I still get confused.
 
+## Observables in Angular
+
+Observables are used extensively inside Angular, but they are part of Angular's
+APIs as well. 
+
+* _EventEmitter_ is a sub-subclass of Observable, the Observer is the event
+  receiver
+  * _Router_ emits routing events
+* Angular's HTTP client returns Observables, e.g. in `get()`
+  * HTTP requests are cancellable (`unsubscribe()`)
+  * Requests can be configured to get progress event updates
+  * Failed requests can be retried
+* Forms can react when data is entered/altered
+
+Special case: Angular's own `async` pipe can be used with Observables to update 
+a component automatically whenever a new value is generated. For instance,
+let's say that Observable _sbState_ in your component class 
+outputs a value whenever a certain SchedBlock changes state. 
+You can set up a component to update with the new state  as it is pushed:
+```angular2html
+    <span>
+        SB state: {{ sbState | async }}
+    </span>
+```
+
 ## Observables and Promises
 
 In the follow-up to Unit 1 we saw how
@@ -205,7 +230,7 @@ A sequence of operators collected in a _pipe_ is called a _recipe_,
 like an ALMA Pipeline recipe is a sequence of tasks.
 
 **NOTE** Angular also defines [_pipes_](https://angular.io/guide/pipes),
-but they are unrelated.
+but they are unrelated. We'll see below how they can be coupled.
 
 A simple example: (_unit1L-3a.ts_):
 
