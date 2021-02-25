@@ -14,7 +14,7 @@ interface DataPage {
 })
 export class GitHubOrganizationsService {
 
-    static readonly DEFAULT_DATA_PAGE_SIZE = 10;
+    static readonly DEFAULT_DATA_PAGE_SIZE = 2;
 
     private dataPages: DataPage[];
     private dataPageSize = GitHubOrganizationsService.DEFAULT_DATA_PAGE_SIZE;

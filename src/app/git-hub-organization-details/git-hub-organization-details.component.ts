@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {GitHubOrganizationsService} from '../git-hub-organizations.service';
 import {GitHubOrganizationDetails} from '../git-hub-organization-details';
 import {SelectionEventsExchangeService} from '../selection-events-exchange.service';
@@ -14,6 +14,9 @@ export class GitHubOrganizationDetailsComponent implements OnInit {
     organizationDetails: GitHubOrganizationDetails;
     organizationDetailKeys: string[];
 
+    @Input()
+    displayKeys: string[];
+
     constructor( private service: GitHubOrganizationsService,
                  private exchange: SelectionEventsExchangeService ) {
     }
@@ -27,7 +30,7 @@ export class GitHubOrganizationDetailsComponent implements OnInit {
             .then( orgDetails => {
                 if (orgDetails) {
                     this.organizationDetails = orgDetails;
-                    this.organizationDetailKeys = Object.keys( this.organizationDetails );
+                    this.organizationDetailKeys = this.displayKeys; //Object.keys( this.organizationDetails );
                 }
             });
     }

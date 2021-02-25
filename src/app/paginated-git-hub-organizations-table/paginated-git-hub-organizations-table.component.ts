@@ -1,5 +1,7 @@
+import { OrganizationSelectionEvent } from './../organization-selection-event';
+import { SelectionEventsExchangeService } from './../selection-events-exchange.service';
 import { GitHubOrganizationDetails } from './../git-hub-organization-details';
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import {GitHubOrganization} from '../git-hub-organization';
 import {GitHubOrganizationsService} from '../git-hub-organizations.service';
 
@@ -16,12 +18,7 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
     pageSizes = [2, 5, 10, 15, 20, 25, 30];
     dataPageSizeSelectorLabel = 'Page size';
 
-    detailsSelectorLabel = 'Details';
-    detailKeys: string[] = [];
-    selectedDetailKeys: string[] = [];
-
-
-    constructor( private gitHubOrganizationsService: GitHubOrganizationsService  ) {
+    constructor( private gitHubOrganizationsService: GitHubOrganizationsService, private exchange:SelectionEventsExchangeService  ) {
     }
 
     ngOnInit(): void {
@@ -29,28 +26,9 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
         this.loadOrganizationsPage( this.currentPage );
     }
 
-    initDetailKeys(){
-        console.log("newSelectedDetailsEventHandler");
-        const login = this.gitHubOrganizations[0].login;
-        this.gitHubOrganizationsService
-        .fetchOrganization( login )
-        .then(details => {
-            if (details) {
-                this.detailKeys = Object.keys (details);
-            }
-        });    
-        console.log("this.detailKeys: " + this.detailKeys.length);
-
-    }
-
     newPageNumberEventHandler( newPageNumber: number ): void {
         this.currentPage = newPageNumber;
         this.loadOrganizationsPage( this.currentPage );
-    }
-
-    newSelectedDetailsEventHandler( newPageNumber: number ): void {
-        console.log("newSelectedDetailsEventHandler");
-
     }
 
     newPageSizeEventHandler( newPageSize: number ): void {
@@ -74,9 +52,6 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
             .then(organizations => {
                 if (organizations) {
                     this.gitHubOrganizations = organizations;
-                }
-                if (this.detailKeys.length < 1){
-                    this.initDetailKeys();
                 }
             });
     }
