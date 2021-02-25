@@ -4,20 +4,6 @@ function addMessage(message: string): void {
     compositeMessage += message + ' ';
 }
 
-function addMessageAfterDelay(message: string): void {
-    setTimeout(() => addMessage(message), 1000);
-}
-
-function example1(): void {
-    compositeMessage = '';
-    addMessage('First');
-    addMessageAfterDelay('Second');
-    addMessage('Third');
-    console.log('>>>', compositeMessage);
-}
-
-example1();
-
 function addMessagePromise( message: string ): Promise<void> {
     return new Promise( (resolve, reject) => {
         setTimeout(() => { compositeMessage += message + ' '; resolve(); },  1000);

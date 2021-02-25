@@ -10,10 +10,12 @@ const observable = new Observable( subscriber => {
     subscriber.next( 'Third' );
 });
 
-observable.subscribe({
+const observer = {
     next: msg => typeMessage( msg as string ),
     error: error => console.error( error )
-});
+};
+
+observable.subscribe( observer );
 
 const observable2 = new Observable( subscriber => {
     setInterval(() => { subscriber.next( 'Stop me!' ); }, 1000);

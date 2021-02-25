@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/unit1L/unit1L-1.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit1L/unit1L-1o.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L-1o.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unit1L/unit1L.md" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit1L/unit1L.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit1L/unit1L.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L-3.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +106,14 @@
       <workItem from="1613392667866" duration="4083000" />
       <workItem from="1613397977067" duration="627000" />
     </task>
+    <task id="LOCAL-00001" summary="Unit 1L: initial rewrite">
+      <created>1614241795733</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1614241795733</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,5 +136,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Unit 1L: initial rewrite" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unit 1L: initial rewrite" />
   </component>
 </project>

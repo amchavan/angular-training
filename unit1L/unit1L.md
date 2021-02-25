@@ -128,23 +128,66 @@ an Observable "pushes" its values out to the Observer.
 
 Observables are often created for you, as for instance by the `get()`
 method of the HTTP client, and there are many useful functions in the RxJS
-API to help with creating Observables, like `of()`. One can also of course
-create an Observable directly, by writing their _subscriber_ function,
-that is, the function to invoke when the Observer subscribes
+API to help with creating Observables, like `of()`.  
+One can also of course
+create an Observable directly, providing the function to 
+invoke when the Observer subscribes
 to the Observable, and the values/states/events should actually be
-generated.
+generated. That's called a _subscriber_ function.
 
-We convert our first example to use an Observable instead:
+We now convert our first example to use an Observable/Observer pair:
+```typescript
+import { Observable } from 'rxjs';
 
+function typeMessage(message: string): void {
+    console.log( message );
+}
+
+const observer = {
+  next: msg => typeMessage( msg as string ),
+  error: error => console.error( error )
+};
+
+const observable = new Observable( subscriber => {
+    subscriber.next( 'First' );
+    setTimeout(() => { subscriber.next( 'Second' ); }, 1000);
+    subscriber.next( 'Third' );
+});
+
+observable.subscribe( observer );
+```
+
+**NOTE** I initially found the _subscribe_/_subscriber_ naming confusing,
+but it actually makes sense.
 
 ## Observables and Promises
 
 In the follow-up to Unit 1 we saw how 
-to use _Promises_ to deal with HTTP requests.
+to use _Promises_ to deal with HTTP requests. Promises and Observables
+are analogous, in that they follow a reactive paradigm to deal 
+with "pushed" values. The main difference between the 
+two is, Promises return a single
+value while Observables multiple values.
 
+|         | Single value | Multiple values |
+|---------|--------------|-----------------|
+| _Pull_  |	Function 	 | Iterator        |
+| _Push_  | Promise      | Observable      |
 
+There are many other differences though:
 
-nd we can do the same here.
+* Observables are "lazy" and computation does not start until 
+  subscription, while Promises execute "eagerly". 
+  
+* Observables differentiate between chaining and subscription, 
+  Promises only have `.then()` clauses. (We'll see what that means.)
+  
+* Observables `subscribe()` is responsible for handling errors,
+  while Promises pass errors on to the child promises.
+  
+* Promises have arguably a simpler API.
+
+--------------
 
 We review `addMessageAfterDelay()`: we wrap a Promise around the 
 Timeout object and return the Promise instead.
