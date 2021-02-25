@@ -1,3 +1,4 @@
+import { GitHubOrganizationDetails } from './../git-hub-organization-details';
 import {Component, OnInit} from '@angular/core';
 import {GitHubOrganization} from '../git-hub-organization';
 import {GitHubOrganizationsService} from '../git-hub-organizations.service';
@@ -12,10 +13,15 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
     gitHubOrganizations: GitHubOrganization[];
     currentPage = 1;    // Always start from the first page!
     pageSize = GitHubOrganizationsService.DEFAULT_DATA_PAGE_SIZE;
-    pageSizes = [5, 10, 15, 20, 25, 30];
+    pageSizes = [2, 5, 10, 15, 20, 25, 30];
     dataPageSizeSelectorLabel = 'Page size';
 
-    constructor( private gitHubOrganizationsService: GitHubOrganizationsService ) {
+    detailsSelectorLabel = 'Details';
+    detailKeys: string[] = [];
+    selectedDetailKeys: string[] = [];
+
+
+    constructor( private gitHubOrganizationsService: GitHubOrganizationsService  ) {
     }
 
     ngOnInit(): void {
@@ -23,9 +29,28 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
         this.loadOrganizationsPage( this.currentPage );
     }
 
+    initDetailKeys(){
+        console.log("newSelectedDetailsEventHandler");
+        const login = this.gitHubOrganizations[0].login;
+        this.gitHubOrganizationsService
+        .fetchOrganization( login )
+        .then(details => {
+            if (details) {
+                this.detailKeys = Object.keys (details);
+            }
+        });    
+        console.log("this.detailKeys: " + this.detailKeys.length);
+
+    }
+
     newPageNumberEventHandler( newPageNumber: number ): void {
         this.currentPage = newPageNumber;
         this.loadOrganizationsPage( this.currentPage );
+    }
+
+    newSelectedDetailsEventHandler( newPageNumber: number ): void {
+        console.log("newSelectedDetailsEventHandler");
+
     }
 
     newPageSizeEventHandler( newPageSize: number ): void {
@@ -49,6 +74,9 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
             .then(organizations => {
                 if (organizations) {
                     this.gitHubOrganizations = organizations;
+                }
+                if (this.detailKeys.length < 1){
+                    this.initDetailKeys();
                 }
             });
     }

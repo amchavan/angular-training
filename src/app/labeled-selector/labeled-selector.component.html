@@ -2,7 +2,7 @@
     <label>
         <span> {{ label }} </span>
         &nbsp;
-        <select (change)="newSelectedOption($event)">
+        <select (change)="newSelectedOption($event)" [multiple]="multiple">
             <option *ngFor="let option of options"
                     [selected]="option == selectedOption">
                 {{ option }}

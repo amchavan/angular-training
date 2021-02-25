@@ -16,6 +16,9 @@ export class LabeledSelectorComponent implements OnInit {
     @Input()
     options: any[];
 
+    @Input()
+    multiple: boolean;
+
     @Output()
     newSelectionEventEmitter = new EventEmitter<any>();
 

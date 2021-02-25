@@ -14,5 +14,14 @@
                              [initialSelectedOption]="pageSize"
                              (newSelectionEventEmitter)="newPageSizeEventHandler($event)">
         </app-labeled-selector>
+
+        <app-labeled-selector class="line multiselect"
+                            [multiple]=true
+                            [label]="detailsSelectorLabel"
+                            [options]="detailKeys"
+                            [initialSelectedOption]="selectedDetailKeys"
+                            (newSelectionEventEmitter)="newSelectedDetailsEventHandler($event)">
+        </app-labeled-selector>
+
     </div>
 </div>
