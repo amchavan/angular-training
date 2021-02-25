@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +99,7 @@
       <workItem from="1612874687743" duration="6934000" />
       <workItem from="1613392667866" duration="4083000" />
       <workItem from="1613397977067" duration="627000" />
-      <workItem from="1614245388086" duration="5371000" />
+      <workItem from="1614245388086" duration="5787000" />
     </task>
     <task id="LOCAL-00001" summary="Unit 1L: initial rewrite">
       <created>1614241795733</created>
@@ -139,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614249050561</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Unit 1L: intermediate commit">
+      <created>1614250878018</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1614250878018</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
