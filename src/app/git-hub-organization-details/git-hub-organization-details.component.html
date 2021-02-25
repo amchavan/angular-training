@@ -1,8 +1,8 @@
 <div>
     <ul class=object>
         <li *ngFor="let detailKey of organizationDetailKeys">
-            <span class="detail-name">  {{ detailKey }}                      </span>
-            <span class="detail-value"> {{ organizationDetails[detailKey] }} </span>
+            <span class="detail-name">  {{ detailKey[1] }}                      </span>
+            <span class="detail-value"> {{ organizationDetails[detailKey[0]] }} </span>
         </li>
     </ul>
 </div>
