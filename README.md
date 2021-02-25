@@ -222,6 +222,7 @@ can, although with a different syntax. Typical operators include
 Operators of a different category allow simple creation of Observables.
 We came across `of()` above and `from()` will convert almost anything
 to an Observable:
+
 ```typescript
 from( 'abc' ); // outputs 'a', 'b', 'c'
 ```
@@ -285,6 +286,34 @@ const observer = {
 pipedObservable.subscribe( observer );
 ```
 
+## Specialized Observables
+
+Several Observable subclasses offer specialized behavior; you will often
+find yourself using a subclass instead of Observable itself.
+
+Probably the most important subclas is _Subject_, an Observable that
+allows multicasting values to multiple observers (_unit1L-6.ts_):
+```typescript
+import {of} from 'rxjs';
+
+const observable = of( 1, 2, 3 );
+
+const observer1 = {
+  next: value => console.log( '1:', value ),
+};
+
+const observer2 = {
+  next: value => console.log( '2:', value ),
+};
+
+observable.subscribe( observer1 );
+observable.subscribe( observer2 );
+```
+
+Subclasses of Subject, like _BehaviorSubject_ and _ReplaySubject_
+offer different approaches to the issue of Observers subscribing 
+at different times.
+
 ## Promises
 
 Let's revisit our initial use case and try to deal with the asynchronous
@@ -322,7 +351,30 @@ we wanted to see:
 First
 Second
 Third
-``` 
+```
+
+### Alternative implementation: async/await
+
+JavaScript/TypeScript also has a useful feature to help deal with
+asynchronous code> If we use the `await` keyword before
+calling a Promise we can force execution 
+to stop until the Promise is resolved (_unit1L-4b.ts_):
+
+```typescript
+async function example4b(): Promise<void> {
+  typeMessage( 'First' );
+  await typeMessagePromise( 'Second' );
+  typeMessage( 'Third' );
+}
+
+example4b();
+```
+
+**NOTE** Function `example4b()` becomes by necessity
+asynchronous itself, and should be declared `async`. 
+It returns a Promise.
+
+
 ### Creating promises
 
 The syntax for creating our promise is not very obvious,
@@ -359,7 +411,6 @@ ultimately return a string error message _or_ a number.
 We can now trigger both a resolve and a reject:
 
 ````typescript
-
 function example5(): void {
     const good = 9;
     squareRootPromise( good ).then( sqrt => console.log( 'sqrt(' + good + ') = ' + sqrt ));
@@ -378,36 +429,3 @@ Negative arg: -1
 
 **NOTE** A Promise that never calls `reject()` will always _resolve_ with some
 value; one that never calls `resolve()` will always _reject_.
-
-## Alternative implementation
-
-`example2()` could have been written using a concatenation of Promises instead,
-as then() returns a new Promise:
-```typescript
-function example4(): void {
-    compositeMessage = '';
-    addMessage( 'First' );
-    addMessagePromise( 'Second' )
-        .then( () => addMessage( 'Third' ))
-        .then( () => console.log( '>>', compositeMessage ));
-}
-```
-## Another alternative: async/await
-
-JavaScript/TypeScript also has a useful feature to help deal with asynchronous code.
-We can use the `await` keyword before calling a Promise, forcing execution
-to stop until the Promise is resolved before moving on.
-```typescript
-async function example5(): Promise<void> {
-    compositeMessage = '';
-    addMessage( 'First' );
-    await addMessagePromise( 'Second' );
-    addMessage( 'Third' );
-    console.log( '>>>', compositeMessage);
-}
-
-example5();
-```
-
-**NOTE** The calling function – `example5()` in this case – becomes by necessity
-asynchronous itself, and should be declared `async`. It returns a Promise.

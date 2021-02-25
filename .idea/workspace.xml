@@ -102,7 +102,7 @@
       <workItem from="1612874687743" duration="6934000" />
       <workItem from="1613392667866" duration="4083000" />
       <workItem from="1613397977067" duration="627000" />
-      <workItem from="1614245388086" duration="6929000" />
+      <workItem from="1614245388086" duration="8295000" />
     </task>
     <task id="LOCAL-00001" summary="Unit 1L: initial rewrite">
       <created>1614241795733</created>
@@ -153,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614253711324</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Unit 1L: intermediate commit">
+      <created>1614254922180</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1614254922180</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +172,7 @@
         <option value="$PROJECT_DIR$/unit1L/unit1L-3b.js" />
         <option value="$PROJECT_DIR$/unit1L/unit1L-4.js" />
         <option value="$PROJECT_DIR$/unit1L/unit1L-5.js" />
+        <option value="$PROJECT_DIR$/unit1L/unit1L-6.js" />
       </list>
     </option>
   </component>
