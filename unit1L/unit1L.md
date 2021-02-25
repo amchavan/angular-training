@@ -4,7 +4,7 @@ Exploring how to deal with TypeScript asynchronous features.
 
 ## TypeScript from the command line
 
-In this unit we'll write simple TypeScript scripts and run them 
+In this unit we'll write TypeScript scripts and run them 
 from the command line. Before you start, please make sure you install the 
 TypeScript compiler:
 ```
@@ -158,7 +158,7 @@ observable.subscribe( observer );
 ```
 
 **NOTE** I initially found the _subscribe_/_subscriber_ naming confusing,
-but it actually makes sense.
+but it actually makes sense. But I still get confused.
 
 ## Observables and Promises
 
@@ -179,13 +179,87 @@ There are many other differences though:
 * Observables are "lazy" and computation does not start until 
   subscription, while Promises execute "eagerly". 
   
-* Observables differentiate between chaining and subscription, 
-  Promises only have `.then()` clauses. (We'll see what that means.)
-  
-* Observables `subscribe()` is responsible for handling errors,
-  while Promises pass errors on to the child promises.
+* Observables can chain _operators_ before returning values,
+  allowing on-the-fly transformation of the values 
+  and early termination. 
+  (We'll see what that means
+  in the next section.)
   
 * Promises have arguably a simpler API.
+
+## Operators and pipes
+
+_Operators_ are RxJS functions that act on the streamed values before they
+are pushed. They can be "piped" (chained) in the same way lambda functions
+can, although with a different syntax. Typical operators include
+`filter()` and `map()`.
+
+**NOTE** The list of RxJS operators is _huge_.
+
+Operators of a different category allow simple creation of Observables. 
+We came across `of()` above and `from()` will convert almost anything
+to an Observable:
+```typescript
+from( 'abc' ); // outputs 'a', 'b', 'c'
+```
+
+A sequence of operators collected in a _pipe_ is called a _recipe_, 
+like an ALMA Pipeline recipe is a sequence of tasks.
+
+**NOTE** Angular also defines [_pipes_](https://angular.io/guide/pipes),
+but they are unrelated.
+
+A simple example: (_unit1L-3a.ts_): 
+
+```typescript
+import {of} from 'rxjs';
+import {filter, map, take, timestamp} from 'rxjs/operators';
+
+const observable = of( 'nrao', 'alma', 'eso', 'naoj' )
+    .pipe(
+        filter( org => org < 'n' ),  // Sorry NRAO and NAOJ!
+        map( org => org.toUpperCase() ),
+        timestamp()
+    );
+
+const observer = {
+    next: value => console.log( JSON.stringify( value )),
+    complete: () => console.log( 'Done' )
+};
+
+observable.subscribe( observer );
+```
+Running this example will output something like
+```text
+{"value":"ALMA","timestamp":1614246979588}
+{"value":"ESO","timestamp":1614246979595}
+Done
+```
+
+You can isolate the recipe and potentially use it with 
+different Observables (_unit1L-3b.ts_):
+
+```typescript
+import {of, pipe} from 'rxjs';
+import {filter, map, timestamp} from 'rxjs/operators';
+
+const recipe = pipe(
+    filter( org => org < 'n' ),
+    map( org => (org as string).toUpperCase() ),
+    timestamp()
+);
+
+const organizationsObservable = of( 'nrao', 'alma', 'eso', 'naoj' );
+const pipedObservable = recipe( organizationsObservable );
+
+const observer = {
+    next: value => console.log( JSON.stringify( value )),
+    complete: () => console.log( 'Done' )
+};
+
+pipedObservable.subscribe( observer );
+```
+
 
 --------------
 
