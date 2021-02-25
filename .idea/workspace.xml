@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit1L/unit1L-1o.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L-1o.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit1L/unit1L-3.ts" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L-N.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unit1L/unit1L.md" beforeDir="false" afterPath="$PROJECT_DIR$/unit1L/unit1L.md" afterDir="false" />
-    </list>
+    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,7 +99,7 @@
       <workItem from="1612874687743" duration="6934000" />
       <workItem from="1613392667866" duration="4083000" />
       <workItem from="1613397977067" duration="627000" />
-      <workItem from="1614245388086" duration="2886000" />
+      <workItem from="1614245388086" duration="3263000" />
     </task>
     <task id="LOCAL-00001" summary="Unit 1L: initial rewrite">
       <created>1614241795733</created>
@@ -121,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614243757521</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Unit 1L: intermediate commit">
+      <created>1614248632593</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1614248632593</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +150,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Unit 1L: initial rewrite" />
     <MESSAGE value="Unit 1L: intermediate rewrite" />
-    <option name="LAST_COMMIT_MESSAGE" value="Unit 1L: intermediate rewrite" />
+    <MESSAGE value="Unit 1L: intermediate commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unit 1L: intermediate commit" />
   </component>
 </project>
