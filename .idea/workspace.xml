@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="3470b838-128e-4dd3-a0dc-48be8a6ac4fa" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +99,7 @@
       <workItem from="1612874687743" duration="6934000" />
       <workItem from="1613392667866" duration="4083000" />
       <workItem from="1613397977067" duration="627000" />
-      <workItem from="1614245388086" duration="20928000" />
+      <workItem from="1614245388086" duration="21657000" />
     </task>
     <task id="LOCAL-00001" summary="Unit 1L: initial rewrite">
       <created>1614241795733</created>
@@ -181,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614337077736</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Unit 1L: Further final commit">
+      <created>1614344368796</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1614344368796</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,6 +223,7 @@
     <MESSAGE value="Unit 1L: First final version" />
     <MESSAGE value="Unit 1L: Fixed &quot;subject&quot; example" />
     <MESSAGE value="Unit 1L: Intermediate commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Unit 1L: Intermediate commit" />
+    <MESSAGE value="Unit 1L: Further final commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unit 1L: Further final commit" />
   </component>
 </project>
