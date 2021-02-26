@@ -63,25 +63,33 @@ the callback — in our case the console output — will be executed
 after the expected delay, but `setTimeout()` itself _returns immediately_,
 so logging of _Third_ is actually performed before _Second_.
 
-##  Reactive programming and _Observables_
+##  Reactive programming
 
 _Reactive programming_ is a programming paradigm,
 mainly concerned with asynchronous _data streams_. Much like real-time
 software, Web applications often need to react to asynchronous events,
 like processing user input by the keystroke or displaying an entity's
 evolving state. Reactive programming has evolved from the need to process
-streams of "values" arriving at unpredictable times, without complex
-polling and waiting routines.
+streams of "values" arriving at unpredictable times, without having to resort
+to polling and/or waiting.
 
-One can work reactively with synchronous data streams as well:
-Java's `streams` API does precisely that.
+NOTE: In fact, one can work reactively with synchronous data streams as well:
+Java's `streams` API does precisely that. We'll use synchronous streams in
+this unit.
+
+See [this resource](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754) 
+for an extensive introduction to reactive programming.
 
 The [RxJs library](https://rxjs-dev.firebaseapp.com/guide/overview)
 implements reactive programming for JavaScript and is used
-extensively by and with Angular. One of the main RxJS concepts
+extensively by and with Angular.
+
+##  _Observables_
+
+One of the main RxJS concepts
 that of an _Observable_, defined as _an invokable
-collection of future values or events_
-.  
+collection of future values or events_.
+
 Observables implement the
 [_Observer pattern_](https://en.wikipedia.org/wiki/Observer_pattern),
 in which you have a _Subject_ and one or more
@@ -90,10 +98,9 @@ that is, "I am observing you, and if and when those values/events appear,
 this I want that to do with them".  
 Observers are passive and, indeed, reactive.
 
-With Observables, you
-_subscribe_ to those changes providing a callback function
-that will be called with every new value. You can also provide
-optional callbacks for _error_ and _completion_ conditions — that is,
+Observers _subscribe_ to those changes, providing a callback function
+that will receive every new value. You can also provide
+optional callbacks for _error_ and _completion_, when
 no more data/events are coming.
 
 ### Very basic example
