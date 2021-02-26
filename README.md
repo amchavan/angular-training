@@ -1,6 +1,6 @@
-# Unit 1L: Async TypeScript
+# Unit 1L: Reactive programming
 
-Exploring how to deal with TypeScript asynchronous features.
+Exploring how to deal with asynchronous data streams.
 
 ## TypeScript from the command line
 
@@ -60,13 +60,19 @@ Second
 
 What happens is, `setTimeout()` _is asynchronous_:
 the callback — in our case the console output — will be executed
-after the expected delay, but `setTimeout()` _itself returns immediately_,
+after the expected delay, but `setTimeout()` itself _returns immediately_,
 so logging of _Third_ is actually performed before _Second_.
 
 ##  Reactive programming and _Observables_
 
 _Reactive programming_ is a programming paradigm,
-mainly concerned with asynchronous _data streams_.
+mainly concerned with asynchronous _data streams_. Much like real-time
+software, Web applications often need to react to asynchronous events,
+like processing user input by the keystroke or displaying an entity's
+evolving state. Reactive programming has evolved from the need to process
+streams of "values" arriving at unpredictable times, without complex
+polling and waiting routines.
+
 One can work reactively with synchronous data streams as well:
 Java's `streams` API does precisely that.
 
@@ -325,7 +331,7 @@ Second observer saw 3
 ```
 **NOTE** Observers should be subscribed to the subject **before** the 
 subject is subscribed to the original observable. In the opposite case
-the subject may consume some of all of the observable's values before
+the subject may consume some or all of the observable's values before
 the observers have a chance to see them.
 
 Subclasses of Subject, like _BehaviorSubject_ and _ReplaySubject_
