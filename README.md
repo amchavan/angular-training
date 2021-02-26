@@ -291,24 +291,42 @@ pipedObservable.subscribe( observer );
 Several Observable subclasses offer specialized behavior; you will often
 find yourself using a subclass instead of Observable itself.
 
-Probably the most important subclas is _Subject_, an Observable that
-allows multicasting values to multiple observers (_unit1L-6.ts_):
+Probably the most important subclass is _Subject_, an Observable that
+allows multicasting values to multiple observers. An easy way to do that
+is by creating a Subject and subscribing it to an existing
+Observable (_unit1L-6.ts_):
 ```typescript
-import {of} from 'rxjs';
-
-const observable = of( 1, 2, 3 );
+import {of, Subject} from 'rxjs';
 
 const observer1 = {
-  next: value => console.log( '1:', value ),
+  next: value => console.log( 'First observer saw', value ),
 };
 
 const observer2 = {
-  next: value => console.log( '2:', value ),
+  next: value => console.log( 'Second observer saw', value ),
 };
 
-observable.subscribe( observer1 );
-observable.subscribe( observer2 );
+const subject = new Subject();
+subject.subscribe( observer1 );
+subject.subscribe( observer2 );
+
+const observable = of( 1, 2, 3 );
+observable.subscribe( subject );
 ```
+Running this script shows that values 1, 2 and 3 are multicasted
+to both observers:
+```text
+First observer saw 1
+Second observer saw 1
+First observer saw 2
+Second observer saw 2
+First observer saw 3
+Second observer saw 3
+```
+**NOTE** Observers should be subscribed to the subject **before** the 
+subject is subscribed to the original observable. In the opposite case
+the subject may consume some of all of the observable's values before
+the observers have a chance to see them.
 
 Subclasses of Subject, like _BehaviorSubject_ and _ReplaySubject_
 offer different approaches to the issue of Observers subscribing 
