@@ -5,11 +5,16 @@
         <tbody>
             <tr>
                 <td>Monitor sensor</td>
-                <td><input type="checkbox" [(ngModel)]="isMonitorActive"></td>
+                <td>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="isMonitorActive">
+                    </label>
+                </td>
             </tr>
             <tr>
                 <td>Current temperature</td>
-                <td> {{ temperatureStream | async }} </td>
+                <td> {{ (temperatureStream | async).value }} </td>
+                <td> {{ (temperatureStream | async).timestamp }} </td>
             </tr>
         </tbody>
     </table>
