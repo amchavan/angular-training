@@ -12,13 +12,23 @@ export interface TemperatureSample {
 })
 export class TemperatureSensorService {
 
+    readonly CYCLE_DURATION = 60 * 1000;
+    readonly SAMPLING_INTERVAL = 100;
+    readonly SAMPLES = this.CYCLE_DURATION / this.SAMPLING_INTERVAL;
+    readonly AMPLITUDE = 10;
+    readonly BASE_TEMPERATURE = 20;
+
+    sample = 0;
     temperatureSensor: Observable<TemperatureSample>;
 
     constructor() {
         this.temperatureSensor = new Observable<number>( subscriber => {
-            let temperature = 0;
             setInterval( () => {
-                subscriber.next( temperature++ );
+                const temperature = this.BASE_TEMPERATURE +
+                                    Math.sin( (this.sample / this.SAMPLES) * Math.PI ) * this.AMPLITUDE ;
+                subscriber.next( temperature );
+                this.sample = (++ this.sample) % this.SAMPLES;
+                // console.log
             }, 125 );
         }).pipe(
             timestamp(),
