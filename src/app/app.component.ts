@@ -15,8 +15,8 @@ export interface PrintableTemperatureSample {
 })
 export class AppComponent implements OnInit {
 
-    private readonly DISPLAY_INTERVAL_MSEC = 1000;
-    private readonly AVERAGE_INTERVAL_SEC = 5;
+    readonly DISPLAY_INTERVAL_MSEC = 1000;
+    readonly AVERAGE_INTERVAL_SEC = 5;
 
     stoppableTemperatureSubject: Subject<TemperatureSample>;
     printableTemperatureStream: Observable<PrintableTemperatureSample>;
