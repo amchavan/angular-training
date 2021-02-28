@@ -18,25 +18,13 @@ export class AppComponent implements OnInit {
     readonly DISPLAY_INTERVAL_MSEC = 1000;
     readonly AVERAGE_INTERVAL_SEC = 5;
 
+    isMonitorActive = true;
+
     stoppableTemperatureSubject: Subject<TemperatureSample>;
     printableTemperatureStream: Observable<PrintableTemperatureSample>;
-//     movingAverage: Observable<any>
-//
-// .scan((acc, curr) => {
-//     acc.push(curr);
-//
-//     if (acc.length > 4) {
-//     acc.shift();
-// }
-// return acc;
-// }, [])
-// .map(arr => arr.reduce((acc, current) => acc + current, 0) / arr.length)
-//
-// s
-    temperatureStream: Observable<PrintableTemperatureSample>;
-
-    isMonitorActive = true;
     printableAverageStream: Observable<number>;
+
+    temperatureStream: Observable<PrintableTemperatureSample>;
     averageStream: Observable<number>;
 
     static toISO( timestamp: number ): string {
