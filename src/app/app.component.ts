@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TemperatureSample, TemperatureSensorService} from './temperature-sensor.service';
-import {Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {filter, map, sampleTime, scan} from 'rxjs/operators';
 
 export interface PrintableTemperatureSample {
     value: string;
@@ -15,33 +15,84 @@ export interface PrintableTemperatureSample {
 })
 export class AppComponent implements OnInit {
 
-    rawTemperatureStream: Observable<TemperatureSample>;
-    stoppableTemperatureStream: Observable<TemperatureSample>;
+    private readonly DISPLAY_INTERVAL_MSEC = 1000;
+    private readonly AVERAGE_INTERVAL_SEC = 5;
+
+    stoppableTemperatureSubject: Subject<TemperatureSample>;
     printableTemperatureStream: Observable<PrintableTemperatureSample>;
+//     movingAverage: Observable<any>
+//
+// .scan((acc, curr) => {
+//     acc.push(curr);
+//
+//     if (acc.length > 4) {
+//     acc.shift();
+// }
+// return acc;
+// }, [])
+// .map(arr => arr.reduce((acc, current) => acc + current, 0) / arr.length)
+//
+// s
     temperatureStream: Observable<PrintableTemperatureSample>;
 
     isMonitorActive = true;
+    printableAverageStream: Observable<number>;
+    averageStream: Observable<number>;
 
-    constructor( private temperatureSensorService: TemperatureSensorService ) {
-        // no-op
+    static toISO( timestamp: number ): string {
+        return (new Date( timestamp )).toISOString().substring( 0, 19 ).replace( 'T', ' ' );
     }
 
-    ngOnInit(): void {
-        this.rawTemperatureStream = this.temperatureSensorService.getTemperatureSensor();
+    constructor( private temperatureSensorService: TemperatureSensorService ) {
+
+        const rawTemperatureStream = this.temperatureSensorService.getTemperatureSensor();
 
         // Make sure we stop monitoring when the checkbox is unchecked
-        this.stoppableTemperatureStream = this.rawTemperatureStream.pipe(
+        const stoppableTemperatureStream = rawTemperatureStream.pipe(
             filter( () => this.isMonitorActive )
         );
 
-        // Convert temperature to fixed format, timestamp to ISO datetime format
-        this.printableTemperatureStream = this.stoppableTemperatureStream.pipe(
+        // We want to multicast the temperature stream to multiple
+        // Observers, so we push it through a Subject
+        this.stoppableTemperatureSubject = new Subject<TemperatureSample>();
+        stoppableTemperatureStream.subscribe( this.stoppableTemperatureSubject );
+
+        // Downsample to the display interval
+        // Convert temperature to fixed format
+        // Timestamp to ISO datetime format
+        this.printableTemperatureStream = this.stoppableTemperatureSubject.pipe(
+            sampleTime( this.DISPLAY_INTERVAL_MSEC ),
             map( rawDatapoint => ({
-                value: rawDatapoint.value.toFixed( 2 ),
-                timestamp: (new Date( rawDatapoint.timestamp )).toISOString() }))
+                value: rawDatapoint.value.toFixed(2),
+                timestamp: AppComponent.toISO( rawDatapoint.timestamp )
+            }))
         );
+
+        // Compute 5-sec moving average:
+        // - downsample raw stream to 1 sec
+        // - extract temp value from data point
+        // - scan() operator to accumulate 5 values in a rotating array
+        // - map() each array to the average of its elements
+        // - downsample that stream to 5 sec
+        this.printableAverageStream = this.stoppableTemperatureSubject.pipe(
+            sampleTime( this.DISPLAY_INTERVAL_MSEC ),
+            map( rawDatapoint => rawDatapoint.value ),
+            scan((acc, curr) => {
+                acc.push(curr);
+                if ( acc.length > this.AVERAGE_INTERVAL_SEC ) {
+                    acc.shift();
+                }
+                return acc;
+                }, []),
+            map( arr => arr.reduce( (acc, current) => acc + current, 0) / arr.length),
+            sampleTime( this.AVERAGE_INTERVAL_SEC * this.DISPLAY_INTERVAL_MSEC )
+        );
+    }
+
+    ngOnInit(): void {
 
         // This is what we display on the UI
         this.temperatureStream = this.printableTemperatureStream;
+        this.averageStream = this.printableAverageStream;
     }
 }

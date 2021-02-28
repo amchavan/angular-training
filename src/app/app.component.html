@@ -12,9 +12,16 @@
                 </td>
             </tr>
             <tr>
+                <td>Current datetime</td>
+                <td> {{ (temperatureStream | async).timestamp }} </td>
+            </tr>
+            <tr>
                 <td>Current temperature</td>
                 <td> {{ (temperatureStream | async).value }} </td>
-                <td> {{ (temperatureStream | async).timestamp }} </td>
+            </tr>
+            <tr>
+                <td>Average temperature (last {{AVERAGE_INTERVAL_SEC}} sec) </td>
+                <td> {{ (averageStream | async).toFixed(2) }} </td>
             </tr>
         </tbody>
     </table>
