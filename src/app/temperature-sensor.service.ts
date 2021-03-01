@@ -25,11 +25,10 @@ export class TemperatureSensorService {
         this.temperatureSensor = new Observable<number>( subscriber => {
             setInterval( () => {
                 const temperature = this.BASE_TEMPERATURE +
-                                    Math.sin( (this.sample / this.SAMPLES) * Math.PI ) * this.AMPLITUDE ;
+                                    Math.sin( (this.sample / this.SAMPLES) * ( 2 * Math.PI )) * this.AMPLITUDE ;
                 subscriber.next( temperature );
                 this.sample = (++ this.sample) % this.SAMPLES;
-                // console.log
-            }, 125 );
+            }, this.SAMPLING_INTERVAL );
         }).pipe(
             timestamp(),
             tap( x => console.log( '>>>', JSON.stringify( x )))
