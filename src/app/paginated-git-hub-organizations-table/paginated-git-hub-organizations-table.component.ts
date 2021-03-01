@@ -47,11 +47,118 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
     }
 
     private loadOrganizationsPage( currentPage: number ): void {
+        const organizations = `[
+            {
+              "login": "errfree",
+              "id": 44,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjQ0",
+              "url": "https://api.github.com/orgs/errfree",
+              "repos_url": "https://api.github.com/orgs/errfree/repos",
+              "events_url": "https://api.github.com/orgs/errfree/events",
+              "hooks_url": "https://api.github.com/orgs/errfree/hooks",
+              "issues_url": "https://api.github.com/orgs/errfree/issues",
+              "members_url": "https://api.github.com/orgs/errfree/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/errfree/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/44?v=4",
+              "description": null
+            },
+            {
+              "login": "engineyard",
+              "id": 81,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjgx",
+              "url": "https://api.github.com/orgs/engineyard",
+              "repos_url": "https://api.github.com/orgs/engineyard/repos",
+              "events_url": "https://api.github.com/orgs/engineyard/events",
+              "hooks_url": "https://api.github.com/orgs/engineyard/hooks",
+              "issues_url": "https://api.github.com/orgs/engineyard/issues",
+              "members_url": "https://api.github.com/orgs/engineyard/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/engineyard/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/81?v=4",
+              "description": ""
+            },
+            {
+              "login": "engineyard",
+              "id": 81,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjgx",
+              "url": "https://api.github.com/orgs/engineyard",
+              "repos_url": "https://api.github.com/orgs/engineyard/repos",
+              "events_url": "https://api.github.com/orgs/engineyard/events",
+              "hooks_url": "https://api.github.com/orgs/engineyard/hooks",
+              "issues_url": "https://api.github.com/orgs/engineyard/issues",
+              "members_url": "https://api.github.com/orgs/engineyard/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/engineyard/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/81?v=4",
+              "description": ""
+            },
+            {
+              "login": "engineyard",
+              "id": 81,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjgx",
+              "url": "https://api.github.com/orgs/engineyard",
+              "repos_url": "https://api.github.com/orgs/engineyard/repos",
+              "events_url": "https://api.github.com/orgs/engineyard/events",
+              "hooks_url": "https://api.github.com/orgs/engineyard/hooks",
+              "issues_url": "https://api.github.com/orgs/engineyard/issues",
+              "members_url": "https://api.github.com/orgs/engineyard/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/engineyard/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/81?v=4",
+              "description": ""
+            },
+            {
+              "login": "engineyard",
+              "id": 81,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjgx",
+              "url": "https://api.github.com/orgs/engineyard",
+              "repos_url": "https://api.github.com/orgs/engineyard/repos",
+              "events_url": "https://api.github.com/orgs/engineyard/events",
+              "hooks_url": "https://api.github.com/orgs/engineyard/hooks",
+              "issues_url": "https://api.github.com/orgs/engineyard/issues",
+              "members_url": "https://api.github.com/orgs/engineyard/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/engineyard/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/81?v=4",
+              "description": ""
+            },
+            {
+              "login": "engineyard",
+              "id": 81,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjgx",
+              "url": "https://api.github.com/orgs/engineyard",
+              "repos_url": "https://api.github.com/orgs/engineyard/repos",
+              "events_url": "https://api.github.com/orgs/engineyard/events",
+              "hooks_url": "https://api.github.com/orgs/engineyard/hooks",
+              "issues_url": "https://api.github.com/orgs/engineyard/issues",
+              "members_url": "https://api.github.com/orgs/engineyard/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/engineyard/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/81?v=4",
+              "description": ""
+            },
+            {
+              "login": "engineyard",
+              "id": 81,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjgx",
+              "url": "https://api.github.com/orgs/engineyard",
+              "repos_url": "https://api.github.com/orgs/engineyard/repos",
+              "events_url": "https://api.github.com/orgs/engineyard/events",
+              "hooks_url": "https://api.github.com/orgs/engineyard/hooks",
+              "issues_url": "https://api.github.com/orgs/engineyard/issues",
+              "members_url": "https://api.github.com/orgs/engineyard/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/engineyard/public_members{/member}",
+              "avatar_url": "https://avatars.githubusercontent.com/u/81?v=4",
+              "description": ""
+            }
+          ]`
+          ;
+          this.gitHubOrganizations = JSON.parse(organizations);
+
+    }
+
+    private loadOrganizationsPageTHROTTLED( currentPage: number ): void {
         this.gitHubOrganizationsService
             .fetchOrganizationsPage( currentPage )
             .then(organizations => {
                 if (organizations) {
                     this.gitHubOrganizations = organizations;
+                    console.log(JSON.stringify(organizations));
                 }
             });
     }

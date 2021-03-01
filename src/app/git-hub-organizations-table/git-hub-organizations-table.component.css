@@ -23,6 +23,14 @@
     background-color: #f3f3f3;
 }
 
+.highlight-row {
+    background-color:cornflowerblue;
+}
+
+.organizations-table tbody tr:nth-of-type(even).highlight-row {
+    background-color:cornflowerblue;
+}
+
 .organizations-table tbody tr:last-of-type {
     border-bottom: 2px solid #004f87;
 }
@@ -46,3 +54,4 @@
 
 .description-col {
 }
+

@@ -13,6 +13,8 @@ export class GitHubOrganizationsTableComponent implements OnInit {
     @Input()
     organizations: GitHubOrganization[];
 
+    lastSelected: GitHubOrganization;
+
     constructor( private exchange: SelectionEventsExchangeService ) {
     }
 
@@ -22,5 +24,12 @@ export class GitHubOrganizationsTableComponent implements OnInit {
     selectedRow( organization: GitHubOrganization ): void {
         const message: OrganizationSelectionEvent = { organization }; // using shorthand instead of { organization: organization }
         this.exchange.send( message );
+
+        if (this.lastSelected){
+            this.lastSelected.selected = false;
+        }
+        organization.selected = true;
+        this.lastSelected = organization;
+
     }
 }

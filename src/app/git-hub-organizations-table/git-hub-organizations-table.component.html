@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let organization of organizations"
-                (click)="selectedRow(organization)" >
+                (click)="selectedRow(organization)"  [ngClass]="{'highlight-row': organization.selected }">
 
                 <td class="id-col"> {{ organization.id }} </td>
                 <td class="login-col"> {{ organization.login }} </td>

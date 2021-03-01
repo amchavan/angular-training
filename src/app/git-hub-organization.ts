@@ -11,4 +11,5 @@ export interface GitHubOrganization {
     public_members_url: string;
     avatar_url: string;
     description: string;
+    selected: boolean;
 }
