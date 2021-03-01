@@ -198,3 +198,11 @@ we reserve 8 columns for the _right_ area and let the _left_ area take up the re
 Our finely composed container now looks like this:
 
 ![v2](images/v2.png)
+
+Proportions will be kept if we resize the window:
+
+![v3](images/v3.png)
+
+**NOTE** In a reactive layout, components would instead _break_ 
+away from each other 
+and slid below.
