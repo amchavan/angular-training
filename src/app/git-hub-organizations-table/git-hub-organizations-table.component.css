@@ -24,11 +24,11 @@
 }
 
 .highlight-row {
-    background-color:cornflowerblue;
+    background-color:lightskyblue;
 }
 
 .organizations-table tbody tr:nth-of-type(even).highlight-row {
-    background-color:cornflowerblue;
+    background-color:lightskyblue;
 }
 
 .organizations-table tbody tr:last-of-type {

@@ -46,7 +46,7 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
         }
     }
 
-    private loadOrganizationsPage( currentPage: number ): void {
+    private loadOrganizationsPageMockDat( currentPage: number ): void {
         const organizations = `[
             {
               "login": "errfree",
@@ -152,7 +152,7 @@ export class PaginatedGitHubOrganizationsTableComponent implements OnInit {
 
     }
 
-    private loadOrganizationsPageTHROTTLED( currentPage: number ): void {
+    private loadOrganizationsPage( currentPage: number ): void {
         this.gitHubOrganizationsService
             .fetchOrganizationsPage( currentPage )
             .then(organizations => {
