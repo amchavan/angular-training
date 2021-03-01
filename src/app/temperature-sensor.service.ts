@@ -24,8 +24,11 @@ export class TemperatureSensorService {
     constructor() {
         this.temperatureSensor = new Observable<number>( subscriber => {
             setInterval( () => {
+                // Generate a sinusoidal centered on BASE_TEMPERATURE with a period of CYCLE_DURATION
+                // A random noise ± 2.5 degrees is added as well
                 const temperature = this.BASE_TEMPERATURE +
-                                    Math.sin( (this.sample / this.SAMPLES) * ( 2 * Math.PI )) * this.AMPLITUDE ;
+                                    Math.sin( (this.sample / this.SAMPLES) * ( 2 * Math.PI )) * this.AMPLITUDE +
+                                    (Math.random() * 5) - 2.5 ;
                 subscriber.next( temperature );
                 this.sample = (++ this.sample) % this.SAMPLES;
             }, this.SAMPLING_INTERVAL );

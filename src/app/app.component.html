@@ -3,7 +3,7 @@
         <thead></thead>
         <tbody>
             <tr>
-                <td> <span class="label"> Monitor sensor</span></td>
+                <td> <span class="label"> Active </span></td>
                 <td>
                     <label>
                         <input type="checkbox" [(ngModel)]="isMonitorActive">
@@ -20,7 +20,7 @@
             </tr>
             <tr>
                 <td>Average temperature (last {{AVERAGE_INTERVAL_SEC}} sec) </td>
-                <td> {{ (averageStream | async).toFixed(2) }} </td>
+                <td *ngIf="isMonitorActive"> {{ (averageStream | async).toFixed(2) }} </td>
             </tr>
         </tbody>
     </table>
