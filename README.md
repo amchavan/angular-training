@@ -151,7 +151,50 @@ shared by the _left_ and _right_ components:
 ```
 Our container now looks like this (added a border style for clarity):
 
-![v0](images/v1.png)
+![v1](images/v1.png)
 
-Columns share their container in equal parts.
+## The 12-column system
 
+In a Bootstrap grid, rows are containers for columns. 
+Every row allows up to 12 columns and one can specify 
+how many of those 12 should be taken up by an actual column.
+By default, as we saw, columns share their container in equal parts.
+
+We can now assign 2 columns to the navigation bar, one to the 
+utility bar, and let the main component take up the rest. Inside the main
+area (which allows the full complement of 12 "virtual" columns), 
+we reserve 8 columns for the _right_ area and let the _left_ area take up the rest:
+
+```html
+
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-2">
+            ...
+        </div>
+        
+        <!-- Main area -->
+        <div class="col">
+            <div class="row">
+                ...
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    ...left...
+                </div>
+                <div class="col-8">
+                    ...right...
+                </div>
+            </div>
+        </div>
+
+        <div class="col-1">
+            ...
+        </div>
+    </div>
+```
+
+Our finely composed container now looks like this:
+
+![v2](images/v2.png)
