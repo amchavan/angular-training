@@ -205,4 +205,4 @@ Proportions will be kept if we resize the window:
 
 **NOTE** In a reactive layout, components would instead _break_ 
 away from each other 
-and slid below.
+and rearrange themselves vertically.
