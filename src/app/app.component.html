@@ -1,9 +1,10 @@
 <div>
-    <table>
-        <thead></thead>
-        <tbody>
+    <div>
+        <table>
+            <thead></thead>
+            <tbody>
             <tr>
-                <td> <span class="label"> Monitor sensor</span></td>
+                <td><span class="label"> Monitor sensor</span></td>
                 <td>
                     <label>
                         <input type="checkbox" [(ngModel)]="isMonitorActive">
@@ -19,9 +20,18 @@
                 <td> {{ (temperatureStream | async).value }} </td>
             </tr>
             <tr>
-                <td>Average temperature (last {{AVERAGE_INTERVAL_SEC}} sec) </td>
-                <td> {{ (averageStream | async).toFixed(2) }} </td>
+                <td>Average temperature (last {{AVERAGE_INTERVAL_SEC}} sec)</td>
+                <td> {{ (averageStream | async).toFixed( 2 ) }} </td>
             </tr>
-        </tbody>
-    </table>
+            <tr>
+                <div id="plot">
+
+                </div>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <app-line-chart [data]="data"></app-line-chart>
+    </div>
 </div>

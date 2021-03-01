@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {TemperatureSample, TemperatureSensorService} from './temperature-sensor.service';
 import {Observable, Subject} from 'rxjs';
 import {filter, map, sampleTime, scan} from 'rxjs/operators';
+import {NewTemperatureSamplesEventService} from './new-temperature-samples-event.service';
+import {NewTemperatureSamplesEvent} from './new-temperature-samples-event';
 
 export interface PrintableTemperatureSample {
     value: string;
@@ -26,12 +28,16 @@ export class AppComponent implements OnInit {
 
     temperatureStream: Observable<PrintableTemperatureSample>;
     averageStream: Observable<number>;
+    plotStream: Observable<TemperatureSample[]>;
+
+    public data: TemperatureSample[] = [];
 
     static toISO( timestamp: number ): string {
         return (new Date( timestamp )).toISOString().substring( 0, 19 ).replace( 'T', ' ' );
     }
 
-    constructor( private temperatureSensorService: TemperatureSensorService ) {
+    constructor( private temperatureSensorService: TemperatureSensorService,
+                 private newTemperatureSamplesEventService: NewTemperatureSamplesEventService ) {
 
         const rawTemperatureStream = this.temperatureSensorService.getTemperatureSensor();
 
@@ -75,6 +81,17 @@ export class AppComponent implements OnInit {
             map( arr => arr.reduce( (acc, current) => acc + current, 0) / arr.length),
             sampleTime( this.AVERAGE_INTERVAL_SEC * this.DISPLAY_INTERVAL_MSEC )
         );
+
+        this.plotStream = this.stoppableTemperatureSubject.pipe(
+            scan((acc, curr) => {
+                acc.push(curr);
+                if ( acc.length > 30 ) {
+                    acc.shift();
+                }
+                return acc;
+            },
+                ( [] as TemperatureSample[] ))
+        );
     }
 
     ngOnInit(): void {
@@ -82,5 +99,9 @@ export class AppComponent implements OnInit {
         // This is what we display on the UI
         this.temperatureStream = this.printableTemperatureStream;
         this.averageStream = this.printableAverageStream;
+
+        this.plotStream.subscribe( array => {
+            this.newTemperatureSamplesEventService.send( {samples: array} );
+        } );
     }
 }
