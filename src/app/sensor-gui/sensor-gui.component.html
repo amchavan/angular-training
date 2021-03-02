@@ -1,8 +1,10 @@
 
 
-<p><label>Active</label> <input id="knob" type="checkbox"/></p>
-
-<p>Current datetime {{ sensorData.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</p>
-<p>Current temperature {{sensorData.temperature }}</p>
-<p>Average temperature (last 5 sec) {{sensorData.averageTemp }}</p>
+<div id="div-ctl" class="cls-ctl">
+    <label>Active</label> 
+    <input #knob checked id="knob" type="checkbox" (click)="click()"/>
+</div>
+<div id="div-date" class="cls-data">Current datetime {{ sensorData.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+<div id="div-temp" class="cls-data">Current temperature {{sensorData.temperature  | number:'1.2-2' }}</div>
+<div id="div-avg" class="cls-data">Average temperature (last 5 sec) {{sensorData.averageTemp | number:'1.2-2' }}</div>
 
