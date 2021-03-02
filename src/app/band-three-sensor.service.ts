@@ -13,9 +13,6 @@ export class BandThreeSensorService {
 
   temp = 100.1;
 
-  @Input()
-  knob: boolean = true;
-
   constructor() {
     this.sensor = new Observable(subscriber => {
       var dataCapture = this.timer.subscribe((seconds) => {
@@ -25,7 +22,7 @@ export class BandThreeSensorService {
         sensorData.temperature = this.temp;
         sensorData.timestamp = new Date();
         subscriber.next(sensorData);
-        console.log(JSON.stringify(sensorData));
+       // console.log(JSON.stringify(sensorData));
       });
     });
   }
