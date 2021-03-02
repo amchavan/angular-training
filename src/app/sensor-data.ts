@@ -1,4 +1,4 @@
-export interface SensorData {
+export class SensorData {
     time: string;
     temperature: number;
 }

@@ -1,6 +1,6 @@
 import { SensorData } from './../sensor-data';
-import { Component, OnInit } from '@angular/core';
-import {Observable, ObservableInput, Observer, of} from 'rxjs';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Output } from '@angular/core';
+import { Observable, ObservableInput, Observer, of } from 'rxjs';
 import { BandThreeSensorService } from '../band-three-sensor.service';
 
 @Component({
@@ -8,33 +8,42 @@ import { BandThreeSensorService } from '../band-three-sensor.service';
   templateUrl: './sensor-gui.component.html',
   styleUrls: ['./sensor-gui.component.css']
 })
-export class SensorGuiComponent implements OnInit, Observer<BandThreeSensorService> {
-
-  currTime: string;
-  currTemp: number;
+export class SensorGuiComponent implements OnInit, AfterViewInit, Observer<BandThreeSensorService> {
 
   public observable: Observable<SensorData>;
+  sensorData: SensorData;
 
-  constructor(private sensors:BandThreeSensorService) { }
+  constructor(private band3: BandThreeSensorService) { 
+    this.sensorData = new SensorData();
+    this.sensorData.time = "zero";
+    this.sensorData.temperature = 0.0;
+  }
 
   ngOnInit(): void {
-   this.observable = this.sensors.sensor;
-   this.observable.subscribe(this);
+    console.log("oninit");
   }
 
-  next(data){
-    console.log("next: " + data);
-    let sensorData:SensorData = data;
-    this.currTemp = sensorData.temperature;
-    this.currTime = sensorData.time;
+  ngAfterViewInit(): void {
+    this.observable = this.band3.sensor;
+    this.observable.subscribe(this);
   }
 
-  error(data:any) {
+  next(data) {
+    //console.log("time: " + data.time + " temperature: " + data.temperature);
+    this.sensorData.time = data.time;
+    this.sensorData.temperature = data.temperature;
+    console.log("sensorData: " + JSON.stringify(this.sensorData));
+  }
+
+  error(data: any) {
     console.log("error: " + data);
   }
 
-  complete(){
-    console.log("complete: ");
+  complete() {
+    console.log("complete.");
   }
+
+
+
 
 }

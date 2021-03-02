@@ -1,6 +1,7 @@
 import { SensorData } from './sensor-data';
 import { Injectable, Input } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,28 +10,21 @@ export class BandThreeSensorService {
 
   sensorData: SensorData;
   sensor: Observable<SensorData>;
+  timer: Observable<number> = timer(1000, 1000);
 
   @Input()
   knob: boolean = true;
 
   constructor() {
-    this.sensorData = {"time": "five", "temperature": 45.6};
-    this.sensor = of(this.sensorData);
+    this.sensorData = { "time": "five", "temperature": 45.6 };
+    this.sensor = new Observable(subscriber => {
+      var dataCapture = this.timer.subscribe((seconds) => {
+        var currentTemp: number = seconds;
+        this.sensorData.temperature = currentTemp;
+        subscriber.next(this.sensorData);
+        //console.log(seconds);
+      });
+    });
   }
 
-  public sensorSubscriber(observer:any){
-    while (this.knob){
-      console.log("hey!")
-      observer.next(this.sensorData)
-      this.sleepy();
-    }
-  };
-
-  async sleepy(){
-    await this.delay(1000);
-  }
-
-  delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-  }
 }
