@@ -10,6 +10,9 @@ In this unit we'll see how you can leverage a CSS framework
 like Bootstrap to abstract the composition problem and apply
 a uniform set of styles to your UIs.
 
+We will follow the 
+[ALMA Web UI Guidelines](https://confluence.alma.cl/display/ICT/ALMA+Web+UI+Guidelines).
+
 ## Dependencies
 
 You will need to install the 
@@ -363,6 +366,3 @@ That won't look too good unless we define all the styles we just used
 }
 ```
 
-## The footer bar
-
-To complete our 
