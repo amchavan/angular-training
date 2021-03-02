@@ -1,4 +1,4 @@
-# Unit 5: Boostrap, composition and CSS
+# Unit 5: Bootstrap, composition and CSS
 
 ## Dependencies
 
@@ -130,7 +130,7 @@ application elements:
     </div>
 ```
 
-Finally we reorganize the main area in two rows, the second being
+Finally, we reorganize the main area in two rows, the second being
 shared by the _left_ and _right_ components:
 ```html
         <!-- Main area -->
