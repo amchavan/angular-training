@@ -15,7 +15,7 @@ export class SensorGuiComponent implements OnInit, AfterViewInit, Observer<BandT
 
   constructor(private band3: BandThreeSensorService) { 
     this.sensorData = new SensorData();
-    this.sensorData.time = "zero";
+    this.sensorData.timestamp = new Date();  
     this.sensorData.temperature = 0.0;
   }
 
@@ -30,9 +30,9 @@ export class SensorGuiComponent implements OnInit, AfterViewInit, Observer<BandT
 
   next(data) {
     //console.log("time: " + data.time + " temperature: " + data.temperature);
-    this.sensorData.time = data.time;
+    this.sensorData.timestamp = data.timestamp;
     this.sensorData.temperature = data.temperature;
-    console.log("sensorData: " + JSON.stringify(this.sensorData));
+    //console.log("sensorData: " + JSON.stringify(this.sensorData));
   }
 
   error(data: any) {

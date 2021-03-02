@@ -1,4 +1,4 @@
 export class SensorData {
-    time: string;
+    timestamp: Date;
     temperature: number;
 }
