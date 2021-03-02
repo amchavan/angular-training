@@ -26,7 +26,7 @@ You will need to import those definitions in _styles.css_:
 @import "~@almaobservatory/ui-guidelines-styles/dist/alma-ui-guidelines.css";
 ```
 
-and you'll need to import the _Lato_ font into _index.html_:
+...and you'll need to import the _Lato_ font into _index.html_:
 
 ```html
   <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
@@ -93,10 +93,11 @@ to responsive layouts and "breakpoints", and
 The same applies to other Bootstrap elements, like `col-sm`.
 
 Inside our container we'll define a _grid_ of elements. Bootstrap's 
-grid is (now) built on the 
-[CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) 
-and defines rows and columns of components. We rearrange our building
-blocks in three rows:
+grid is based on the concepts of rows and columns of components;
+it a higher-level abstraction built on the 
+[CSS flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/).
+
+We rearrange our building blocks in three rows:
 ```html
 <div class="container-fluid">
     <!-- Header row -->
@@ -284,6 +285,77 @@ To improve the appearance of the button bar (_utilities-bar.component.css_):
 
 .btn-group-vertical .btn:first-of-type {
     margin-top: 0;
+}
+```
+
+## Populating the header
+
+We want the header component to take up all the available space,
+so we define and apply the corresponding style _in the container element_ `<app-root>`
+(_app.component.html_ and _app.component.css_):
+```css
+.header {
+    width: 100%;
+}
+```
+```html
+   <app-header-bar class="header"></app-header-bar>
+```
+
+Now we're ready to populate the header bar according to the UI Guidelines 
+(_header-bar.component.html_):
+```html
+<div class="alma-blue">
+    <div class="row">
+
+        <!-- ALMA logo and application name/version -->
+        <span class="tab-head">
+            <img class="alma-logo"
+                 alt="This is the ALMA logo"
+                 src="https://www.almaobservatory.org/wp-content/uploads/2017/06/alma-logo.png">
+                &nbsp;
+                <strong>Unit 5 &middot; Angular Training</strong>&nbsp;&nbsp;<span class="alma-sw-version">2021APR</span>
+        </span>
+
+        <!-- Filler, pushes the next items to the right -->
+        <span class="flex-md-fill"></span>
+
+        <!-- Two right-side "pulldown menus" -->
+        <span>
+            <button type="button" class="btn alma-blue btn-sm tab-head">
+                <i class="fas fa-question has-text"></i> Help
+            </button>
+        </span>
+
+        <span>
+            <button type="button" class="btn alma-blue btn-sm tab-head">
+                <i class="fas fa-user has-text"></i> Mary Smith
+            </button>
+        </span>
+    </div>
+</div>
+```
+
+That won't look too good unless we define all the styles we just used
+(_header-bar.component.css_):
+```css
+.alma-logo {
+    height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px
+}
+
+.tab-head {
+    padding: 0 10px 2px 10px;
+    height: 40px;
+    border: 0;
+    color: white;
+    cursor: pointer;
+}
+
+.alma-sw-version {
+    font-size: 75%;
 }
 ```
 
