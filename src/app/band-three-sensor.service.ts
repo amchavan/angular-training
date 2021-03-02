@@ -8,24 +8,24 @@ import { DatePipe } from '@angular/common';
 })
 export class BandThreeSensorService {
 
-  sensorData: SensorData;
   sensor: Observable<SensorData>;
   timer: Observable<number> = timer(1000, 1000);
 
-
+  temp = 100.1;
 
   @Input()
   knob: boolean = true;
 
   constructor() {
-    this.sensorData = { "timestamp": new Date(), "temperature": 45.6 };
     this.sensor = new Observable(subscriber => {
       var dataCapture = this.timer.subscribe((seconds) => {
-        var currentTemp: number = seconds;
-        this.sensorData.temperature = currentTemp;
-        this.sensorData.timestamp = new Date();
-        subscriber.next(this.sensorData);
-        //console.log(seconds);
+        const sensorData = new SensorData();
+        var num: number = Math.sin(seconds);
+        this.temp = this.temp + num;
+        sensorData.temperature = this.temp;
+        sensorData.timestamp = new Date();
+        subscriber.next(sensorData);
+        console.log(JSON.stringify(sensorData));
       });
     });
   }
