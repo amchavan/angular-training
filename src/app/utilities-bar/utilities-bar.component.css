@@ -5,3 +5,7 @@
 .btn-group-vertical .btn:first-of-type {
     margin-top: 0;
 }
+
+.float-right {
+    float: right;
+}

@@ -254,7 +254,7 @@ Navigation bar (_navigation-bar.component.html_):
 Utilities bar (_utilities-bar.component.html_):
 
 ```html
-<div class="btn-group-vertical">
+<div class="btn-group-vertical float-right">
     <button type="button" class="btn btn-primary btn-sm">
         <i class="fas fa-upload"></i>
     </button>
@@ -277,7 +277,7 @@ Utilities bar (_utilities-bar.component.html_):
 </div>
 ```
 
-To improve the appearance of the button bar (_utilities-bar.component.css_):
+We improve the appearance of the button bar and push it to the right side (_utilities-bar.component.css_):
 ```css
 .btn-group-vertical .btn {
     margin-top: 6px;
@@ -285,6 +285,10 @@ To improve the appearance of the button bar (_utilities-bar.component.css_):
 
 .btn-group-vertical .btn:first-of-type {
     margin-top: 0;
+}
+
+.float-right {
+    float: right;
 }
 ```
 
@@ -359,3 +363,6 @@ That won't look too good unless we define all the styles we just used
 }
 ```
 
+## The footer bar
+
+To complete our 
