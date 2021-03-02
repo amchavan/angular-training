@@ -1,8 +1,19 @@
 # Unit 5: Bootstrap, composition and CSS
 
+In our previous units we focused on TypeScript/Angular and 
+functionality and, apart for some pretty CSS, we paid 
+little attention to how our UIs look. Those UIs were also 
+structurally very simple, but even so (see Unit 4), it was 
+sometimes hard to compose them as we wished. 
+
+In this unit we'll see how you can leverage a CSS framework 
+like Bootstrap to abstract the composition problem and apply
+a uniform set of styles to your UIs.
+
 ## Dependencies
 
-You will need to install the guidelines for styling ALMA UIs,
+You will need to install the 
+[guidelines for styling ALMA UIs](https://www.npmjs.com/package/@almaobservatory/ui-guidelines-styles),
 a thin CSS layer on top of 
 [Bootstrap](https://getbootstrap.com/docs/5.0/layout/containers/):
 
@@ -32,6 +43,8 @@ libraries, icons, images and CSS definitions.
 
 ## Building blocks 
 
+We initially create a bunch of empty components that make up our UI.
+
 ```text
 ng generate component header-bar
 ng generate component navigation-bar
@@ -42,6 +55,7 @@ ng generate component utilities-bar
 ng generate component footer-bar
 ```
 
+We add them to `<app-root>` in 
 _app.component.html_:
 
 ```html
@@ -54,7 +68,7 @@ _app.component.html_:
 <app-footer-bar></app-footer-bar>
 ```
 
-This is how it looks:
+This is how our initial UI looks:
 
 ![v0](images/v0.png)
 
