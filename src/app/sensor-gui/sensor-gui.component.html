@@ -1,8 +1,8 @@
 
 
+<p><label>Active</label> <input id="knob" type="checkbox"/></p>
 
-
-<p>Current datetime {{ sensorData.timestamp | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+<p>Current datetime {{ sensorData.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</p>
 <p>Current temperature {{sensorData.temperature }}</p>
 <p>Average temperature (last 5 sec) {{sensorData.averageTemp }}</p>
 
