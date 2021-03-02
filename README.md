@@ -120,7 +120,7 @@ blocks in three rows:
 </div>
 ```
 
-Then arrange the main row in three columns, the left-side navigation
+...then arrange the main row in three columns, the left-side navigation
 bar, the right-side utilities bar, and a central area with the main
 application elements:
 
@@ -163,7 +163,14 @@ shared by the _left_ and _right_ components:
             </div>
         </div>
 ```
-Our container now looks like this (added a border style for clarity):
+
+Let's add borders to our `div`s for clarity (_styles.css_):
+```css
+div {
+    border: lightgray dashed 1px;
+}
+```
+Our container now looks like this:
 
 ![v1](images/v1.png)
 
@@ -218,5 +225,65 @@ Proportions will be kept if we resize the window:
 ![v3](images/v3.png)
 
 **NOTE** In a reactive layout, components would instead _break_ 
-away from each other 
-and rearrange themselves vertically.
+away from each other and rearrange themselves vertically.
+
+## Adding some contents
+
+We now add some "real" contents to our application, starting with the
+navigation and utilities vertical bars.
+
+Since we'll be using icons we need to incorporate the FontAwesome library
+first (_index.html_):
+```html
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" crossorigin="anonymous">
+```
+
+Navigation bar (_navigation-bar.component.html_):
+
+```html
+<div>
+    <a href="https://almaobservatory.org">ALMA</a> <br>
+    <a href="https://www.eso.org">ESO</a> <br>
+    <a href="https://www.nao.ac.jp/en/">NAOJ</a> <br>
+    <a href="https://nrao.edu">NRAO</a> <br>
+    <a href="https://github.com/amchavan/angular-training/tree/unit5">Unit 5</a>
+</div>
+```
+
+Utilities bar (_utilities-bar.component.html_):
+
+```html
+<div class="btn-group-vertical">
+    <button type="button" class="btn btn-primary btn-sm">
+        <i class="fas fa-upload"></i>
+    </button>
+
+    <button type="button" class="btn btn-secondary btn-sm">
+        <i class="fas fa-download has-text"></i>
+    </button>
+
+    <button type="button" class="btn btn-warning btn-sm">
+        <i class="fas fa-search"></i>
+    </button>
+
+    <button type="button" class="btn btn-danger btn-secondary btn-sm">
+        <i class="fas fa-trash-alt"></i>
+    </button>
+
+    <button type="button" class="btn btn-danger btn-sm">
+        <i class="fas fa-fire has-text"></i>
+    </button>
+</div>
+```
+
+To improve the appearance of the button bar (_utilities-bar.component.css_):
+```css
+.btn-group-vertical .btn {
+    margin-top: 6px;
+}
+
+.btn-group-vertical .btn:first-of-type {
+    margin-top: 0;
+}
+```
+

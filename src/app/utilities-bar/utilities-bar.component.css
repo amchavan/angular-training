@@ -1,0 +1,7 @@
+.btn-group-vertical .btn {
+    margin-top: 6px;
+}
+
+.btn-group-vertical .btn:first-of-type {
+    margin-top: 0;
+}
