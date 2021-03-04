@@ -1,0 +1,23 @@
+<div>
+    <app-git-hub-organizations-table [organizations]="gitHubOrganizations">
+    </app-git-hub-organizations-table>
+
+    <div>
+        <app-pagination-widget class="line"
+                               [currentPage]="currentPage"
+                               (newPageNumberEventEmitter)=newPageNumberEventHandler($event) >
+        </app-pagination-widget>
+
+        <app-labeled-selector class="line"
+                             [label]="dataPageSizeSelectorLabel"
+                             [options]="pageSizes"
+                             [initialSelectedOption]="pageSize"
+                             (newSelectionEventEmitter)="newPageSizeEventHandler($event)">
+        </app-labeled-selector>
+
+
+
+    </div>
+
+ 
+</div>

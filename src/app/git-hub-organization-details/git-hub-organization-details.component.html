@@ -1,0 +1,17 @@
+<div class="top-div">
+    <div class="header-div">
+        <span id="span-details">Details</span>
+    </div>
+    <div class="details-div">
+        <img src={{avatarURL}} class="avatar"/>
+        <ul class=object>
+            <li *ngFor="let detailKey of organizationDetailKeys">
+                <span class="detail-name"> {{ detailKey[1] }} </span>
+                <span class="detail-value"> {{ organizationDetails[detailKey[0]] }} </span>
+            </li>
+        </ul>
+    </div>
+
+    
+
+</div>

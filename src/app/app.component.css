@@ -1,0 +1,21 @@
+app-paginated-git-hub-organizations-table{
+   display: inline-block;
+   width: 100%;
+   vertical-align: top;
+
+}
+
+app-git-hub-organization-details{
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+}
+
+div {
+    border: white dashed 2px;
+}
+
+.header {
+    width: 100%;
+}
+

@@ -1,0 +1,25 @@
+<div>
+    <table class="organizations-table">
+        <colgroup>
+            <col >
+        </colgroup>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>URL</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let organization of organizations"
+                (click)="selectedRow(organization)"  [ngClass]="{'highlight-row': organization.selected }">
+
+                <td class="id-col"> {{ organization.id }} </td>
+                <td class="login-col"> {{ organization.login }} </td>
+                <td class="url-col"> {{ organization.url }} </td>
+                <td class="description-col"> {{ organization.description }} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

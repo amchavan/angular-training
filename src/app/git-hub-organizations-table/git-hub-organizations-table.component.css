@@ -1,0 +1,57 @@
+
+.organizations-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.organizations-table thead tr {
+    background-color: #004f87;
+    color: #ffffff;
+    text-align: left;
+}
+
+.organizations-table th,
+.organizations-table td {
+    padding: 5px 5px;
+}
+
+.organizations-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.organizations-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.highlight-row {
+    background-color:lightsteelblue;
+}
+
+.organizations-table tbody tr:nth-of-type(even).highlight-row {
+    background-color:lightsteelblue;
+}
+
+.organizations-table tbody tr:last-of-type {
+    border-bottom: 2px solid #004f87;
+}
+
+.organizations-table tbody tr.description-row {
+    font-weight: bold;
+    color: #004f87;
+}
+
+.id-col {
+    width: 10%;
+}
+
+.login-col {
+    width: 20%;
+}
+
+.url-col {
+    width: 30%;
+}
+
+.description-col {
+}
+

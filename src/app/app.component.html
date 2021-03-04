@@ -1,1 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <app-header-bar class="header"></app-header-bar>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-6">
+            <app-paginated-git-hub-organizations-table></app-paginated-git-hub-organizations-table>
+        </div>
+
+        <div class="col-6">
+            <app-git-hub-organization-details [displayKeys]="displayKeys"></app-git-hub-organization-details>
+        </div>
+    </div>
+</div>

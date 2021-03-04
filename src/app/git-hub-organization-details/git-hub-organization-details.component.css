@@ -1,0 +1,42 @@
+.object {
+    list-style: none;
+}
+
+.detail-name {
+    display: inline-block; min-width: 200px
+}
+
+.details-div {
+    /*border-top-style: solid;*/
+    border-bottom-style: solid;    
+    /*border-radius: 5px;*/
+    border-color: #004f87;
+    border-width: 2px;
+    margin: auto;
+}
+
+.top-div {
+    width: 100%;
+}
+
+.header-div {
+    color: white;
+    background-color: #004f87;
+    height: 31px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.avatar {
+    height: 40px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#span-details {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
