@@ -183,3 +183,26 @@ We change the service definition first (_git-hub-organizations.service.ts_):
 
 ## Polishing
 
+We hardcoded the URL of the GitHub organizations API in the service method.
+In real life you will probably have  a test server that's different from your 
+production server, and you can take advantage of Angular _environments_ to 
+differentiate at build time.
+
+**NOTE** ALMA conventions are different and that configuration happens at runtime.
+
+We'll use the same API URL in "development" (_environments/environment.ts_) and in "production" 
+(_environments/environment.prod.ts_): 
+```typescript
+  gitHubApiUrl: 'https://api.github.com'
+```
+
+...and we'll inject that value in the service (_git-hub-organizations.service.ts_):
+
+```typescript
+    import {environment} from '../environments/environment';
+    ...
+    const url = environment.gitHubApiUrl + '/organizations?per_page=' + count;
+```
+
+A development or production environment will be chosen at build time, based on command-line
+options, see [the Angular build guide](https://angular.io/guide/build).
