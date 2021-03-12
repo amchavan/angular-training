@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
 ```
 
 If we navigate to http://localhost:4200/ and open the browser's console we should
-see a list of GitHub organizations. The network view should show an HTTP request to
+see a JSON array of GitHub organizations. The network view should show an HTTP request to
 the GitHub organizations URL every time we reload the application.
 
 ## Displaying data on the browser tab
@@ -124,3 +124,62 @@ Finally, we provide that callback in the component class (_app.component.ts_):
         );
     }
 ```
+
+If we navigate to http://localhost:4200/ we should
+see a JSON array of GitHub organizations.
+
+## Type safety
+
+TypeScript is a (somewhat) type-safe superset of JavaScript, and we should take advantage of that to
+make our applications more robust. Types are defined as _interfaces_ in TS, and we can define a GitHub
+organization as such:
+```text
+ng generate interface GitHubOrganization
+```
+
+...and populate it (_git-hub-organization.ts_):
+
+```typescript
+export interface GitHubOrganization {
+    login: string;
+    id: number;
+    node_id: string;
+    url: string;
+    repos_url: string;
+    events_url: string;
+    hooks_url: string;
+    issues_url: string;
+    members_url: string;
+    public_members_url: string;
+    avatar_url: string;
+    description: string;
+}
+```
+
+The interface represents part of the contract between the service (data provider) and the component (data consumer).
+We change the service definition first (_git-hub-organizations.service.ts_):
+
+```typescript
+    fetchOrganizations( count: number,
+                        callback: (data: GitHubOrganization[]) => void  ): void {
+    const url = 'https://api.github.com/organizations?per_page=' + count;
+    this.httpClient.get<GitHubOrganization[]>( url )
+        .toPromise()
+        .then(  data  => callback( data ))
+        .catch( error => console.error( JSON.stringify( error )));
+}
+```
+
+...and then the caller (_app.component.ts_):
+
+```typescript
+    ngOnInit(): void {
+        this.gitHubOrganizationsService.fetchOrganizations(
+            3,
+            (organizations: GitHubOrganization[]) => this.gitHubOrganizations = JSON.stringify( organizations, undefined, 4 )
+        );
+    }
+```
+
+## Polishing
+
