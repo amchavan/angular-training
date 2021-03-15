@@ -1,6 +1,6 @@
 # Angular Training Unit 1B
 
-An detour about callbacks, promises and error handling.
+A detour around callbacks, promises and error handling.
 
 In Unit 1, we defined a service method requiring a callback to process the data returned from the API:
 
