@@ -1,44 +1,82 @@
 # Angular Training Unit 2
 
-Child and Parent Components, and some styling.
+Parent and children components, and some styling.
 
 Our first component, _AppComponent_, was created by Angular when we generated our first
-application. We'll add more components to that, extending the capabilities of our application.
+application. We'll add more and more components to that, 
+extending the capabilities of our application.
 
 ## A new Component
 
 We want a new component to display our list of GitHub organizations. New Components can be generated on the command line:
 
 ```text
-    ng generate component GitHubOrganizationsTable
+ng generate component GitHubOrganizationsTable
 ```
 
 That command will create the component's HTML and CCS files, the component class
-and a test suite for that, under src/app/git-hub-organizations-table:
+and a test suite for that class in directory _src/app/git-hub-organizations-table_:
 
-* src/app/git-hub-organizations-table/git-hub-organizations-table.component.css
-* src/app/git-hub-organizations-table/git-hub-organizations-table.component.html
-* src/app/git-hub-organizations-table/git-hub-organizations-table.component.spec.ts
-* src/app/git-hub-organizations-table/git-hub-organizations-table.component.ts
+* git-hub-organizations-table.component.css
+* git-hub-organizations-table.component.html
+* git-hub-organizations-table.component.ts
+* git-hub-organizations-table.component.spec.ts
 
-The command also included the new component in the `declarations` element of our _AppModule_,
-in _app-module.ts_
+The command also included the new component in the `declarations` element of the
+_AppModule_ in _app-module.ts_
 
 ## Passing data from parent to child
 
-The organizations table will be a child component of <app-root>, and in its first incarnation it will simply display the raw JSON string. We want the new component to receive organizations data from AppComponent, so we have to organize that:
+The organizations table will be a child component of `<app-root>`, 
+and in its first incarnation it will simply display the raw JSON string. 
+We want the new component to receive organizations data from AppComponent, 
+so we have to organize that.
 
-    Add the <app-git-hub-organizations-table> element to <app-root>, coupling the value of AppComponent.gitHubOrganizations to the new component's organizations field:
-        <app-git-hub-organizations-table [organizations]="gitHubOrganizations"></app-git-hub-organizations-table>
-    Declare that field in GitHubOrganizationsTableComponent, annotating it as an "input" parameter:
-        @Input()  organizations: string;
-    Use that value in a <pre> element in the component's HTML file:
-        <pre> {{ organizations }} </pre>
+**app.component.html**:
+
+Add the `<app-git-hub-organizations-table>` element to `<app-root>`, 
+coupling the value of `AppComponent.gitHubOrganizations` to the new 
+component's `organizations` field:
+```angular2html
+<app-git-hub-organizations-table [organizations]="gitHubOrganizations"></app-git-hub-organizations-table>
+```
+
+**git-hub-organizations-table.component.ts**:
+
+Declare the `organizations` field in _GitHubOrganizationsTableComponent_, 
+annotating it as an "input" parameter:
+```typescript
+export class GitHubOrganizationsTableComponent implements OnInit {
+
+    @Input()  organizations: string;
+
+    constructor() { }
+    
+    ...
+```
+
+**git-hub-organizations-table.component.html**: 
+
+Use the value the `organizations` field in a `<pre>` element in the component's HTML file:
+```angular2html
+<pre> {{ organizations }} </pre>
+```
 
 If we reload the application we will see the same display as at the end of Unit 1.
-Creating a dynamic table
 
-So far we've only moved functionality from <app-root> to a child component. We now want to display our data in better form than a raw JSON string, so our first move is to make AppComponent pass the actual data instead of a string: we change the type of gitHubOrganizations from string to GitHubOrganization[] and we initialize it from our the Promise returned from our service method, making sure we cope with possible errors (in which case we get an undefined value):
+## Creating a dynamic table
+
+So far we've only moved functionality from `<app-root>` to a child component.   
+We now want to display our data in better form than a raw JSON string, 
+so our first move is to make _AppComponent_ pass its child the actual 
+array of GitHub organization records instead of a string: 
+we change the type of gitHubOrganizations from `string` to `GitHubOrganization[]` 
+and we initialize it from our the Promise returned from our service method, 
+making sure we cope with possible errors (in which case we get an undefined value):
+```typescript
+    gitHubOrganizations: GitHubOrganization[];
+ 
+    ...
 
     ngOnInit(): void {
         this.gitHubOrganizationsService
@@ -47,9 +85,18 @@ So far we've only moved functionality from <app-root> to a child component. We n
                 if ( organizations ) { this.gitHubOrganizations = organizations; }
             });
     }
+```
 
-We then change the new component's class input to expect an array of GitHubOrganization instances and its HTML to include a <table> element that's populated dynamically via some Angular Magic (*ngFor):
+We then redefine the new component's class `input` variable to expect an array of 
+`GitHubOrganization` instances (_git-hub-organizations-table.component.ts_):
+```typescript
+    @Input()  organizations: GitHubOrganization[];
+```
 
+...and its HTML to include a `<table>` element.   
+The table is then populated dynamically via some Angular magic (`*ngFor`) (_git-hub-organizations-table.component.html_):
+
+```angular2html
 <div>
     <table>
         <thead>
@@ -67,45 +114,63 @@ We then change the new component's class input to expect an array of GitHubOrgan
         </tbody>
     </table>
 </div>
+```
 
-A facelift
+## A facelift
 
-We have our table but it doesn't look very nice, time for some styling.
+We have our table, but it doesn't look very nice. Time for some styling.
 
-    We add a new font to the application, Lato. In index.html, we add a <style> element to the <head>:
-          <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+* We add a new font to the application, _Lato_. 
+  In _index.html_, we add a `<style>` element to the `<head>`:
+  ```html
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  ```
 
-    We set the as the font for the whole application in style.css (it will apply to our table as well):
+* We set that as the font for the whole application in _style.css_ 
+  (it will apply to our table as well):
         body { font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 14px; }
 
-    We set the class of the <table> element to organizations-table:
+* We set the class of the <table> element to organizations-table 
+  (_git-hub-organizations-table.component.html_):
+  ```html
         <table class="organizations-table">
+  ```
 
-    And write new CSS definitions in git-hub-organizations-table.component.css
+*  We complete the styling exercise writing new CSS definitions in 
+   _git-hub-organizations-table.component.css_:
+```css
+.organizations-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+}
 
-Suggested exercises
-Activate the URLs
+.organizations-table thead tr {
+    background-color: #004f87;
+    color: #ffffff;
+    text-align: left;
+}
 
-The organizations' HTML URL is not active: change git-hub-organizations-table.component.html so that one can click on it and navigate to the site.
+.organizations-table th,
+.organizations-table td {
+    padding: 12px 15px;
+}
 
-Tip: use an HTML <a> element.
+.organizations-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
 
-Bonus points if you eliminate the URL column altogether and make the organization's login field clickable.
-Show the Avatar
+.organizations-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
 
-One of the fields of an GitHubOrganization instance is avatar_url, the URL of an icon: add a column to the table displaying that icon.
+.organizations-table tbody tr:last-of-type {
+    border-bottom: 2px solid #004f87;
+}
 
-Tip: use an <img> element with a width and height of 16.
-
-Take a look at what happens in the Network tab of your browser when you reload the application: that is the N+1 problem.
-Description rows
-
-One of the table CSS definitions defines a description-row class for <tr> elements, which you can use to display such rows in a highlighted form. Classes, styles, etc. can be defined dynamically in Angular, based on some condition.
-
-In this case, one can assign the description-row to all table rows changing the <tr> definition to
-
-    <tr [ngClass]="{'description-row': true }" ... >
-
-Replace true with a condition that evaluates to true if, for that row, the organization's description field is not null or empty.
-
-Tip: it's a very simple expression!
+.organizations-table tbody tr.description-row {
+    font-weight: bold;
+    color: #004f87;
+}
+```
