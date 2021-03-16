@@ -12,7 +12,7 @@ export class AppComponent implements OnInit{
   public title = 'angular-training';
 
   // store of github users
-  public gitHubUsers: String;
+  public gitHubUsers: string;
 
   // the number of users to present
   N_USERS = 5;
@@ -25,8 +25,15 @@ export class AppComponent implements OnInit{
     // call the fetch users method and populate local store.
     this.gitHubUserService.fetchUsers(
       this.N_USERS,
-      (gitHubUsers) => {
-        this.gitHubUsers = JSON.stringify(gitHubUsers, undefined, 4 );
-      });
+      (theGitHubUsers) => {
+        theGitHubUsers.forEach(
+          user => {
+            this.gitHubUsers += (
+                user.id + '\n' + user.login + '\n' +
+                user.site_admin + '\n' + user.type + '\n\n');
+          }
+        );
+      }
+    );
   }
 }
