@@ -12,7 +12,7 @@ export class AppComponent implements OnInit{
   public title = 'angular-training';
 
   // store of github users
-  public gitHubUsers: string;
+  public gitHubUsers = '';
 
   // the number of users to present
   N_USERS = 5;
