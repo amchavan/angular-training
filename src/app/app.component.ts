@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
 
   // store of github users
   public gitHubUsers = '';
+  private gitHubUsersHolder: Array<GitHubUsers>;
 
   // the number of users to present
   N_USERS = 5;
@@ -20,20 +21,24 @@ export class AppComponent implements OnInit{
   // constructor populating private variables
   constructor(private gitHubUserService: GitHubUsersService) {}
 
+  private convertToString(): void {
+    for (const user of this.gitHubUsersHolder) {
+      this.gitHubUsers += (
+          user.id + '\n' + user.login + '\n' +
+          user.site_admin + '\n' + user.type + '\n\n');
+    }
+  }
+
+// when the class is displayed on the html.
   // when the class is displayed on the html.
   ngOnInit(): void {
     // call the fetch users method and populate local store.
     this.gitHubUserService.fetchUsers(
-      this.N_USERS,
-      (theGitHubUsers) => {
-        theGitHubUsers.forEach(
-          user => {
-            this.gitHubUsers += (
-                user.id + '\n' + user.login + '\n' +
-                user.site_admin + '\n' + user.type + '\n\n');
-          }
-        );
-      }
+        this.N_USERS,
+        (theGitHubUsers) => {
+          this.gitHubUsersHolder = theGitHubUsers;
+          this.convertToString();
+        }
     );
   }
 }
