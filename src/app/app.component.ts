@@ -29,13 +29,14 @@ export class AppComponent implements OnInit {
         this.gitHubUsersService.fetchUsers(
           3,
           (users) => {
-            this.gitHubUsers = '';
+            let tmpstring: string  = '';
             users.forEach(user => {
               console.log("Doing a user")
               const userString = `\n ${user.id.toLocaleString().padEnd(5)} : ${user.login.padEnd(10)} : ${user.site_admin.toString().padEnd(6)} : ${user.type}`;
-              this.gitHubUsers = this.gitHubUsers.concat(userString)
+              tmpstring = tmpstring.concat(userString)
               }
             )
+            this.gitHubUsers = tmpstring;
           }
         )
             
