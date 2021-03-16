@@ -21,16 +21,20 @@ export class AppComponent implements OnInit{
   // constructor populating private variables
   constructor(private gitHubUserService: GitHubUsersService) {}
 
+  /**
+   * converts the array of git hub users into a strong for presenting
+   * @private
+   */
   private convertToString(): void {
     // go over the users and convert to the string
     for (const user of this.gitHubUsersHolder) {
       this.gitHubUsers += (
-          'user_id' + user.id + '\n' + user.login + '\n' +
-          user.site_admin + '\n' + user.type + '\n\n');
+          'user_id: ' + user.id + '\n' + 'user login: ' + user.login + '\n' +
+          'is site admin: ' + user.site_admin + '\n' + 'user type: ' + user.type +
+          '\n\n');
     }
   }
 
-// when the class is displayed on the html.
   // when the class is displayed on the html.
   ngOnInit(): void {
     // call the fetch users method and populate local store.
