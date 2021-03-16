@@ -22,9 +22,10 @@ export class AppComponent implements OnInit{
   constructor(private gitHubUserService: GitHubUsersService) {}
 
   private convertToString(): void {
+    // go over the users and convert to the string
     for (const user of this.gitHubUsersHolder) {
       this.gitHubUsers += (
-          user.id + '\n' + user.login + '\n' +
+          'user_id' + user.id + '\n' + user.login + '\n' +
           user.site_admin + '\n' + user.type + '\n\n');
     }
   }
