@@ -7,7 +7,8 @@ import {GitHubUsers} from './git-hub-users';
 })
 export class GitHubUsersService {
 
-  private gitBubUserBaseUrl = 'https://api.github.com/users';
+  private gitHubUserBaseErrorUrl = 'https://api.github.com/organizations/not-found';
+  private gitHubUserBaseUrl = 'https://api.github.com/users';
   private perPage = '?per_page=';
 
   constructor(private httpClient: HttpClient) {}
@@ -16,11 +17,31 @@ export class GitHubUsersService {
    * brings users from github
    * @param count: the number of users
    * @param callback: the callback for the component
+   * @param errorCallback: the optional callback for errors
    */
-  fetchUsers(count: number, callback: (data: Array<GitHubUsers>) => void): void {
+  fetchUsers(
+      count: number,
+      callback: (data: Array<GitHubUsers>) => void,
+      errorCallback?: (message: string) => void): void {
     this.httpClient.get<Array<GitHubUsers>>(
-        this.gitBubUserBaseUrl + this.perPage + count).toPromise()
+        this.gitHubUserBaseUrl + this.perPage + count).toPromise()
         .then(data => callback(data))
-        .catch(error => console.error(JSON.stringify(error)));
+        .catch(error => errorCallback(JSON.stringify(error)));
+  }
+
+  /**
+   * brings a error from github
+   * @param count: the number of users
+   * @param callback: the callback for the component
+   * @param errorCallback: the optional callback for errors
+   */
+  fetchUsersError(
+      count: number,
+      callback: (data: Array<GitHubUsers>) => void,
+      errorCallback?: (message: string) => void): void {
+    this.httpClient.get<Array<GitHubUsers>>(
+        this.gitHubUserBaseErrorUrl + this.perPage + count).toPromise()
+        .then(data => callback(data))
+        .catch(error => errorCallback(JSON.stringify(error)));
   }
 }
