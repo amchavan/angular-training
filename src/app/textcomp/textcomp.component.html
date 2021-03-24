@@ -1,0 +1,18 @@
+<h1>Weclome to text componeent!!!!</h1>
+
+<button type="button" name="buttonInfo1" id="buttonInfo1" (click)='getinfo1()'>Employee 1</button>
+<ul class="list-group">
+    <li *ngFor = "let info of info1received" class="list-group-item">{{info}}</li>
+</ul>
+
+<button type="button" name="buttonInfo2" id="buttonInfo2" (click)='getinfo2()'>Employee 2</button>
+<ul class="list-group">
+    <li *ngFor = "let info of info2received" class="list-group-item">{{info}}</li>
+</ul>
+
+<button type="button" name="buttonInfo3" id="buttonInfo3" (click)='getinfo3()'>Employee 3</button>
+<ul class="list-group">
+    <li *ngFor = "let info of info3received" class="list-group-item">{{info}}</li>
+</ul>
+
+
